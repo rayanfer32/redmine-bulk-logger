@@ -1,6 +1,6 @@
-document.body.innerHTML += `
-    <div class="BL_modal">
-      <div>
+window.BL_TABLE_DOM = `
+    <div id="BL_modal" class="BL_modal">
+      <div id="BL_table_dom">
         <button class="BL_close-modal-btn" onclick="closeModal()">x</button>
         <h2>Bulk Logger - v0.1</h2>
         <p>Script to help you log efforts in bulk.</p>
@@ -145,6 +145,19 @@ document.body.innerHTML += `
           <button class="BL_button" id="BL_submitTasks">Submit All</button>
           <button class="BL_button" id="BL_clearAllTasks">Clear All</button>
         </div>
+      </div>
+
+      <div id="BL_prompt_api_key" style="display: none;gap: 1rem">
+        <pre>
+          You only need to do this once.
+          1. Goto https://redmine.niveussolutions.com/my/account
+          2. On the Right side panel, Under API access key  
+          3. Click on show and copy the key to clipboard
+          4. Come back and paste the key here.
+        </pre>
+        <label>REDMINE API KEY: </label>
+        <input type="text" placeholder="Paste your redmine API key here" />
+        <button onclick="handleAPIsave(this)">Save</button>
       </div>
     </div>
     `;
@@ -295,23 +308,51 @@ body {
 }
 `;
 document.head.append(INJECTED_CSS);
+
+const HAS_BL_INSTANCE_MOUNTED = document.querySelector(".BL_modal")?.hasChildNodes() == true ? true : false
+
+if(!HAS_BL_INSTANCE_MOUNTED){
+  document.body.innerHTML += window.BL_TABLE_DOM;
+  console.log('Redmine Bulk Logger is Loaded!');
+}
+else {
+  console.log('Redmine Bulk Logger is Already Mounted!');
+}
+
 const IS_INJECTED = window.location.host.startsWith('redmine');
 const BASE_URL_ORIGIN = window.location.origin;
-const DOMAIN_ENC = "bml2ZXVzc29sdXRpb25z"
-const DOMAIN_NAME = atob(DOMAIN_ENC)
+const DOMAIN_ENC = 'bml2ZXVzc29sdXRpb25z';
+const DOMAIN_NAME = atob(DOMAIN_ENC);
 const tableBodyEl = document.querySelector('.BL_task-table > tbody');
 const addNewBtnEl = document.querySelector('#BL_new-task');
 
-if(!window.location.host.startsWith("localhost") && !window.location.host.startsWith("redmine")){
+if (
+  !window.location.host.startsWith('localhost') &&
+  !window.location.host.startsWith('redmine')
+) {
   window.location.href = `https://redmine.${DOMAIN_NAME}.com/time_entries?utf8=%E2%9C%93&set_filter=1&sort=spent_on%3Adesc&f%5B%5D=user_id&op%5Buser_id%5D=%3D&v%5Buser_id%5D%5B%5D=me&f%5B%5D=&c%5B%5D=project&c%5B%5D=spent_on&c%5B%5D=user&c%5B%5D=activity&c%5B%5D=issue&c%5B%5D=comments&c%5B%5D=hours&group_by=spent_on&t%5B%5D=hours&t%5B%5D=`;
-  alert("Redirecting to Redmine time entries page...");
+  alert('Redirecting to Redmine time entries page...');
 }
 
 let REDMINE_API_KEY = localStorage.getItem('RKEY');
+
+window.handleAPIsave = (button) => {
+  const inputApiKey = button.parentNode.children[2].value;
+  if(inputApiKey == "" || inputApiKey == null || inputApiKey.length != 40){
+    alert("Please enter a valid API key.")
+  }
+  else{
+    REDMINE_API_KEY = inputApiKey
+    localStorage.setItem('RKEY', REDMINE_API_KEY);
+    alert("Saved API key successfully!")
+    document.querySelector("#BL_prompt_api_key").style.display = "none"
+    document.querySelector("#BL_table_dom").style.display = "block"
+  }
+};
+
 if (REDMINE_API_KEY == null || REDMINE_API_KEY.length != 40) {
-  REDMINE_API_KEY = prompt(
-    `Copy and paste redmine api key from\n ${BASE_URL_ORIGIN}/my/account \n > in right sidebar > click on show.`
-  );
+  document.querySelector("#BL_prompt_api_key").style.display = "grid"
+  document.querySelector("#BL_table_dom").style.display = "none"
   localStorage.setItem('RKEY', REDMINE_API_KEY);
 }
 
@@ -342,75 +383,77 @@ if (IS_INJECTED) {
     .then((res) => res.json())
     .then((data) => createOptionsNodes(data));
 } else {
-  createOptionsNodes(ACTIVITIES);
+  // createOptionsNodes(ACTIVITIES);
 }
 
 ROW_ELEMENT = document.querySelector('#BL_row').cloneNode(true);
 
 async function fetchIssuesSearchAPI(query) {
-  console.log("Searching issue: ", query)
+  console.log('Searching issue: ', query);
 
   // return [query + 1, query + 2, query + 3, query + 4];
   try {
-    const response = await fetch(`${BASE_URL_ORIGIN}/issues/auto_complete?term=${query}`, {
-      method: 'GET',
-      headers: {
-        'X-Redmine-API-Key': REDMINE_API_KEY,
-      },
-    });
+    const response = await fetch(
+      `${BASE_URL_ORIGIN}/issues/auto_complete?term=${query}`,
+      {
+        method: 'GET',
+        headers: {
+          'X-Redmine-API-Key': REDMINE_API_KEY,
+        },
+      }
+    );
 
     if (response.ok) {
       const result = await response.json();
       console.log(result);
-      return result
+      return result;
     }
   } catch (err) {
     console.error(err);
   }
 }
 
-window.removeRow = function(button) {
+window.removeRow = function (button) {
   const row = button.parentNode.parentNode;
 
   row.remove();
-}
+};
 
-window.copyRow = function(button) {
+window.copyRow = function (button) {
   const row = button.parentNode.parentNode;
   const clonedNode = row.cloneNode(true);
 
   clonedNode.cells[1].lastElementChild.value =
     row.cells[1].lastElementChild.value;
   tableBodyEl.appendChild(clonedNode);
-}
+};
 
 addNewBtnEl.addEventListener('click', () => {
   tableBodyEl.appendChild(ROW_ELEMENT.cloneNode(true));
 });
 
 let debounceTimer;
-window.handleIssueInput = function(ev) {
-  console.log(ev)
+window.handleIssueInput = function (ev) {
+  console.log(ev);
   const inputVal = ev.srcElement.value;
   clearTimeout(debounceTimer);
   if (inputVal) {
     debounceTimer = setTimeout(() => {
-      let dropdownEl = ev.target.nextElementSibling 
-      
-      dropdownEl.innerHTML = ""
-      fetchIssuesSearchAPI(inputVal).then(
-        data => data.map((item) => {
+      let dropdownEl = ev.target.nextElementSibling;
+
+      dropdownEl.innerHTML = '';
+      fetchIssuesSearchAPI(inputVal).then((data) =>
+        data.map((item) => {
           const optionElement = document.createElement('option');
-      
+
           optionElement.value = item.id;
           optionElement.text = item.label;
           dropdownEl.appendChild(optionElement);
-        }
-      ))
-      
+        })
+      );
     }, 2000);
   }
-}
+};
 
 function calcTotalHours() {
   let totalHours = 0;
@@ -481,9 +524,9 @@ function clearAllTasks() {
   document.querySelectorAll('#BL_row').forEach((el) => el.remove());
 }
 
-window.closeModal = function(){
-  document.querySelector(".BL_modal").style.display = "none"
-}
+window.closeModal = function () {
+  document.querySelector('.BL_modal').style.display = 'none';
+};
 
 document.querySelector('#BL_loadTasks').addEventListener('click', loadTasks);
 document.querySelector('#BL_saveTasks').addEventListener('click', saveTasks);
@@ -496,4 +539,5 @@ document
 
 setInterval(calcTotalHours, 500);
 
-console.log('Redmine Bulk Logger Loaded!');
+
+

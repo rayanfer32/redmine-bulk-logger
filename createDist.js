@@ -32,7 +32,8 @@ async function main() {
   const JsPart = await fs.promises.readFile('./script.js', 'utf8');
 
   const injectionCode =
-    'document.body.innerHTML += `' +
+    // * avoid setting dom directly , lets set it to a window variable and use it as needed.
+    'window.BL_TABLE_DOM = `' +
     htmlPart +
     '`;\n' +
     "const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = `\n" +
@@ -42,10 +43,6 @@ async function main() {
     ';\n' +
     JsPart;
   await fs.promises.writeFile('dist.js', injectionCode);
-
-  // * disable creating bookmarklet
-  // const bookmarkletCode = `javascript: (function(){${injectionCode}}())`
-  // await fs.promises.writeFile('bookmarklet.js', bookmarkletCode);
 }
 
 main();
