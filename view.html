@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <!-- INJECT START -->
+    <div class="BL_modal">
+      <div>
+        <button class="BL_close-modal-btn" onclick="closeModal()">x</button>
+        <h2>Bulk Logger - v0.1</h2>
+        <p>Script to help you log efforts in bulk.</p>
+        <table class="BL_task-table">
+          <thead>
+            <tr class="table-headings">
+              <th>Issue*</th>
+              <th>Activity*</th>
+              <th>Date*</th>
+              <th>Hours*</th>
+              <th>Comment</th>
+              <th class="task-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="BL_row">
+              <td>
+                <div id="issue-select">
+                  <input
+                    class="BL_input"
+                    type="search"
+                    id="searchInput"
+                    onfocus="this.nextElementSibling.style.display = 'block'"
+                    oninput="window.handleIssueInput(event)"
+                    placeholder="Search..."
+                  />
+                  <div
+                    class="BL_issue-dropdown"
+                    onclick="this.parentElement.firstElementChild.value = event.target.value; this.style.display ='none'"
+                  >
+                    <option value="1">*Please Select*</option>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <select class="BL_select" id="activity-select">
+                  <option value="">*Please Select*</option>
+                  <option value="8">UI/UX Design</option>
+                  <option value="9">Backend Development</option>
+                  <option value="10">QA Testing</option>
+                  <option value="11">Requirement Gathering</option>
+                  <option value="12">Deployment</option>
+                  <option value="13">UI Development</option>
+                  <option value="14">UI Development Rework</option>
+                  <option value="15">Backend Development Rework</option>
+                  <option value="16">Support Development</option>
+                  <option value="17">Support Query Writing</option>
+                  <option value="18">Support for Production</option>
+                  <option value="19">KT Session</option>
+                  <option value="20">Documentation</option>
+                  <option value="21">Architecting Solution</option>
+                  <option value="22">Architecture Review</option>
+                  <option value="23">Project Planning</option>
+                  <option value="24">Status Reporting</option>
+                  <option value="25">Tech Design</option>
+                  <option value="26">DevOps Activities</option>
+                  <option value="27">Bug Fixing</option>
+                  <option value="28">Code Review</option>
+                  <option value="29">Unit Testing</option>
+                  <option value="30">QA Automation</option>
+                  <option value="31">Test Case Creation</option>
+                  <option value="32">Project Meeting</option>
+                  <option value="33">Client Call</option>
+                  <option value="34">Internal Demo</option>
+                  <option value="35">Org-wide Meeting / Activity</option>
+                  <option value="36">Tech Sessions / Trainings</option>
+                  <option value="37">DevOps Automation</option>
+                  <option value="38">Idle Time</option>
+                </select>
+              </td>
+              <td><input class="BL_input" type="date" name="date" /></td>
+              <td>
+                <input
+                  class="BL_input hours"
+                  type="number"
+                  onchange="calcTotalHours()"
+                  value="1"
+                  min="0.5"
+                  step="0.5"
+                  name="hours"
+                />
+              </td>
+              <td>
+                <input
+                  class="BL_input"
+                  class="BL__comment-box"
+                  type="text"
+                  name="comments"
+                  placeholder="Comments"
+                />
+              </td>
+              <td class="BL_action_col">
+                <button
+                  class="BL_button"
+                  id="BL_copyRow"
+                  onclick="window.copyRow(this)"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-subtract"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2z"
+                    />
+                  </svg>
+                </button>
+                <button
+                  class="BL_button"
+                  id="BL_removeRow"
+                  onclick="window.removeRow(this)"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-trash-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
+                    />
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="BL_add-new-task">
+          <button class="BL_button" id="BL_new-task">+</button>
+          <p id="total-hours">Total Hours: 0</p>
+        </div>
+
+        <div class="BL_btn-block">
+          <button class="BL_button" id="BL_loadTasks">Load</button>
+          <button class="BL_button" id="BL_saveTasks">Save</button>
+          <button class="BL_button" id="BL_submitTasks">Submit All</button>
+          <button class="BL_button" id="BL_clearAllTasks">Clear All</button>
+        </div>
+      </div>
+    </div>
+    <!-- INJECT END -->
+  </body>
+
+  <script src="responses.js"></script>
+  <script src="script.js"></script>
+</html>
