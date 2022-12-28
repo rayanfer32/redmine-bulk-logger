@@ -140,7 +140,7 @@ window.BL_TABLE_DOM = `
           <p id="total-hours">Total Hours: 0</p>
           <div style="display: flex;">
             <input class="BL_input" id="BL_update-dates-input" type="date" name="date" />
-            <button onclick="updateDates()">Update Dates</button>
+            <button class="BL_button" onclick="updateDates()">Update Dates</button>
           </div>
         </div>
 
@@ -162,7 +162,7 @@ window.BL_TABLE_DOM = `
         </pre>
         <label>REDMINE API KEY: </label>
         <input type="text" placeholder="Paste your redmine API key here" />
-        <button onclick="handleAPIsave(this)">Save</button>
+        <button class="BL_button" onclick="handleAPIsave(this)">Save</button>
       </div>
     </div>
     `;
