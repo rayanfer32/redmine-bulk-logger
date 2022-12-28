@@ -137,6 +137,10 @@ window.BL_TABLE_DOM = `
         <div class="BL_add-new-task">
           <button class="BL_button" id="BL_new-task">+</button>
           <p id="total-hours">Total Hours: 0</p>
+          <div style="display: flex;">
+            <input class="BL_input" id="BL_update-dates-input" type="date" name="date" />
+            <button onclick="updateDates()">Update Dates</button>
+          </div>
         </div>
 
         <div class="BL_btn-block">
@@ -428,6 +432,14 @@ window.copyRow = function (button) {
     row.cells[1].lastElementChild.value;
   tableBodyEl.appendChild(clonedNode);
 };
+
+updateDates = () => {
+  console.log("UPDATING DATES");
+  const updateDateVal = document.querySelector("#BL_update-dates-input").value
+  Array.from(tableBodyEl.children).map((rowEl) => { 
+    rowEl.children[2].firstElementChild.value = updateDateVal
+  })
+}
 
 addNewBtnEl.addEventListener('click', () => {
   tableBodyEl.appendChild(ROW_ELEMENT.cloneNode(true));

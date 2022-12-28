@@ -119,6 +119,14 @@ window.copyRow = function (button) {
   tableBodyEl.appendChild(clonedNode);
 };
 
+updateDates = () => {
+  console.log("UPDATING DATES");
+  const updateDateVal = document.querySelector("#BL_update-dates-input").value
+  Array.from(tableBodyEl.children).map((rowEl) => { 
+    rowEl.children[2].firstElementChild.value = updateDateVal
+  })
+}
+
 addNewBtnEl.addEventListener('click', () => {
   tableBodyEl.appendChild(ROW_ELEMENT.cloneNode(true));
 });
