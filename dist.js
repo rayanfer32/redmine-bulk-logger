@@ -316,6 +316,7 @@ if(!HAS_BL_INSTANCE_MOUNTED){
   console.log('Redmine Bulk Logger is Loaded!');
 }
 else {
+  document.querySelector(".BL_modal").style.display = "flex";
   console.log('Redmine Bulk Logger is Already Mounted!');
 }
 
