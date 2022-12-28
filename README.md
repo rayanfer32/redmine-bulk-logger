@@ -3,26 +3,20 @@
 ### Usage
 * Goto Redmine page > open console and paste the below code.
 ```js
-fetch("https://gist.githubusercontent.com/rayanfer32/62bef346b3d396723cffaff6889aa03c/raw/redmine.dist.js")
-.then(t => t.text())
-.then(t => eval(t))
+fetch("https://raw.githubusercontent.com/rayanfer32/redmine-bulk-logger/main/dist.js").then(t => t.text()).then(t => eval(t))
 ```
 
 ### Bookmarklet Shortcut
 ```js
-javascript: (function(){
-fetch("https://gist.githubusercontent.com/rayanfer32/62bef346b3d396723cffaff6889aa03c/raw/redmine.dist.js")
-.then(t => t.text())
-.then(t => eval(t))
-}())
+javascript: (function(){fetch("https://raw.githubusercontent.com/rayanfer32/redmine-bulk-logger/main/dist.js").then(t => t.text()).then(t => eval(t))}())
 ```
 
 ### Install Dependencies
 `npm install`
 
 ### Development 
-`npm run dev`
 * Start Live server extension
+* Run compiler `npm run dev`
 
 
 ### src files for local developemnt
