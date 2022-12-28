@@ -1,12 +1,11 @@
+const HAS_BL_INSTANCE_MOUNTED =
+  document.querySelector('.BL_modal')?.hasChildNodes() == true ? true : false;
 
-const HAS_BL_INSTANCE_MOUNTED = document.querySelector(".BL_modal")?.hasChildNodes() == true ? true : false
-
-if(!HAS_BL_INSTANCE_MOUNTED){
+if (!HAS_BL_INSTANCE_MOUNTED) {
   document.body.innerHTML += window.BL_TABLE_DOM;
   console.log('Redmine Bulk Logger is Loaded!');
-}
-else {
-  document.querySelector(".BL_modal").style.display = "flex";
+} else {
+  document.querySelector('.BL_modal').style.display = 'flex';
   console.log('Redmine Bulk Logger is Already Mounted!');
 }
 
@@ -29,21 +28,20 @@ let REDMINE_API_KEY = localStorage.getItem('RKEY');
 
 window.handleAPIsave = (button) => {
   const inputApiKey = button.parentNode.children[2].value;
-  if(inputApiKey == "" || inputApiKey == null || inputApiKey.length != 40){
-    alert("Please enter a valid API key.")
-  }
-  else{
-    REDMINE_API_KEY = inputApiKey
+  if (inputApiKey == '' || inputApiKey == null || inputApiKey.length != 40) {
+    alert('Please enter a valid API key.');
+  } else {
+    REDMINE_API_KEY = inputApiKey;
     localStorage.setItem('RKEY', REDMINE_API_KEY);
-    alert("Saved API key successfully!")
-    document.querySelector("#BL_prompt_api_key").style.display = "none"
-    document.querySelector("#BL_table_dom").style.display = "block"
+    alert('Saved API key successfully!');
+    document.querySelector('#BL_prompt_api_key').style.display = 'none';
+    document.querySelector('#BL_table_dom').style.display = 'block';
   }
 };
 
 if (REDMINE_API_KEY == null || REDMINE_API_KEY.length != 40) {
-  document.querySelector("#BL_prompt_api_key").style.display = "grid"
-  document.querySelector("#BL_table_dom").style.display = "none"
+  document.querySelector('#BL_prompt_api_key').style.display = 'grid';
+  document.querySelector('#BL_table_dom').style.display = 'none';
   localStorage.setItem('RKEY', REDMINE_API_KEY);
 }
 
@@ -120,12 +118,12 @@ window.copyRow = function (button) {
 };
 
 updateDates = () => {
-  console.log("UPDATING DATES");
-  const updateDateVal = document.querySelector("#BL_update-dates-input").value
-  Array.from(tableBodyEl.children).map((rowEl) => { 
-    rowEl.children[2].firstElementChild.value = updateDateVal
-  })
-}
+  console.log('UPDATING DATES');
+  const updateDateVal = document.querySelector('#BL_update-dates-input').value;
+  Array.from(tableBodyEl.children).map((rowEl) => {
+    rowEl.children[2].firstElementChild.value = updateDateVal;
+  });
+};
 
 addNewBtnEl.addEventListener('click', () => {
   tableBodyEl.appendChild(ROW_ELEMENT.cloneNode(true));
@@ -203,20 +201,42 @@ function loadTasks() {
 
 function submitEntry(entry) {
   const time_entry = { time_entry: { ...entry } };
-  fetch(`${BASE_URL_ORIGIN}/time_entries.xml`, {
+  return fetch(`${BASE_URL_ORIGIN}/time_entries.xml`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json',
       'X-Redmine-API-Key': REDMINE_API_KEY,
     },
     body: JSON.stringify(time_entry),
-  })
-    .then((resp) => console.log(resp.status))
-    .catch((err) => console.log('FAILED:', err));
+  });
 }
-function submitTasks() {
+
+// todo: improve the funciton to make parallel async api calls
+async function submitTasks() {
+  const messageBoxEl = document.querySelector('#BL_message_box1')
+  
   const tasksArr = getTasksArrFromDOM();
-  tasksArr.forEach((entry) => submitEntry(entry));
+  messageBoxEl.innerHTML = `<p style='color: blue'>Submitting ${tasksArr.length} entries please wait...</p>`
+
+  const successfulSubmissions = [];
+  const failedSubmissions = [];
+
+  for (const entry of tasksArr) {
+    try {
+      const response = await submitEntry(entry);
+      if (response.ok) {
+        successfulSubmissions.push(entry);
+      } else {
+        throw new Error(`Failed to submit entry: ${response.statusText}`);
+      }
+    } catch (error) {
+      failedSubmissions.push(entry);
+    }
+  }
+
+  messageBoxEl.innerHTML = `<p style='color: green'>Successfully submitted entries: ${successfulSubmissions.map(i => i.issue_id)}</p>
+  <p style='color: red'>Failed to submit entries:${failedSubmissions.map(i => i.issue_id)}</p>`;
+  return { successfulSubmissions, failedSubmissions };
 }
 
 function clearAllTasks() {
@@ -237,6 +257,3 @@ document
   .addEventListener('click', clearAllTasks);
 
 setInterval(calcTotalHours, 500);
-
-
-

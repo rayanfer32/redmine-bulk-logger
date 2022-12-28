@@ -142,3 +142,8 @@ body {
 .BL__comment-box {
   width: 20rem;
 }
+
+.BL_message_box {
+  color: purple;
+  font-family: monospace;
+}
