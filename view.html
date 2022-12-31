@@ -8,14 +8,14 @@
 
     <!-- INJECT START -->
     <div id="BL_modal" class="BL_modal">
+      <button class="BL_button BL_close-modal-btn" onclick="closeModal()">x</button>
       <div id="BL_table_dom">
-        <button class="BL_close-modal-btn" onclick="closeModal()">x</button>
         <h2>Bulk Logger - v0.1</h2>
         <p>Script to help you log efforts in bulk.</p>
         <p id="BL_message_box1" class="BL_message_box"></p>
         <table class="BL_task-table">
           <thead>
-            <tr class="table-headings">
+            <tr class="BL_table-headings">
               <th>Issue*</th>
               <th>Activity*</th>
               <th>Date*</th>
@@ -41,7 +41,7 @@
                     class="BL_issue-dropdown"
                     onclick="this.parentElement.firstElementChild.value = event.target.value; this.style.display ='none'"
                   >
-                    <option >*Type something...*</option>
+                    <option value="1">*Type something...*</option>
                   </div>
                 </div>
               </td>

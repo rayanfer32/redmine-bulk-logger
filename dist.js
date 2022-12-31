@@ -1,13 +1,13 @@
 window.BL_TABLE_DOM = `
     <div id="BL_modal" class="BL_modal">
+      <button class="BL_button BL_close-modal-btn" onclick="closeModal()">x</button>
       <div id="BL_table_dom">
-        <button class="BL_close-modal-btn" onclick="closeModal()">x</button>
         <h2>Bulk Logger - v0.1</h2>
         <p>Script to help you log efforts in bulk.</p>
         <p id="BL_message_box1" class="BL_message_box"></p>
         <table class="BL_task-table">
           <thead>
-            <tr class="table-headings">
+            <tr class="BL_table-headings">
               <th>Issue*</th>
               <th>Activity*</th>
               <th>Date*</th>
@@ -33,7 +33,7 @@ window.BL_TABLE_DOM = `
                     class="BL_issue-dropdown"
                     onclick="this.parentElement.firstElementChild.value = event.target.value; this.style.display ='none'"
                   >
-                    <option >*Type something...*</option>
+                    <option value="1">*Type something...*</option>
                   </div>
                 </div>
               </td>
@@ -195,7 +195,9 @@ body {
 
 .BL_close-modal-btn{
   position: absolute;
+  top: 1rem;
   right: 1rem;
+  width: 2rem;
   border: none;
   border-radius: 0.2rem;
   padding: 0.4rem 1rem;
@@ -215,7 +217,6 @@ body {
 
 .BL_modal {
   display: flex;
-  justify-content: center;
   align-items: center;
   height: inherit;
   padding: 1rem;
@@ -325,6 +326,34 @@ body {
 .BL_message_box {
   color: purple;
   font-family: monospace;
+}
+
+@media (max-width: 900px) {
+  .BL_modal {
+    top: 0%;
+    left: 0%;
+    right: 0%;
+  }
+
+  #BL_row, .BL_table-headings {
+    display: grid ;
+    margin-bottom: 1rem;
+    width: calc(100vw - 10%);
+  }
+
+  .BL_add-new-task {
+    display: grid;
+    width: calc(100vw - 10%);
+  }
+
+  .BL_btn-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: calc(100vw - 10%);
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
 }`;
 document.head.append(INJECTED_CSS);
 const HAS_BL_INSTANCE_MOUNTED =
@@ -600,10 +629,6 @@ document
 
 document.querySelector(".BL_modal").addEventListener("click", (event) => {
   if (["BL_modal", "BL_table_dom"].includes(event.target.parentElement.id)) {
-    console.log(
-      "Clicked out, closing dropdowns",
-      event.target.parentElement.id
-    );
     // * close all the issue search dropdown when clicked outside of the options
     document
       .querySelectorAll(".BL_issue-dropdown")
@@ -613,7 +638,6 @@ document.querySelector(".BL_modal").addEventListener("click", (event) => {
 
 window.handleIssueInputOnBlur = (el) => {
   setTimeout(() => {
-    console.log("Closing options of ", el);
     el.nextElementSibling.style.display = "none";
   }, 500);
 };

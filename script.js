@@ -271,10 +271,6 @@ document
 
 document.querySelector(".BL_modal").addEventListener("click", (event) => {
   if (["BL_modal", "BL_table_dom"].includes(event.target.parentElement.id)) {
-    console.log(
-      "Clicked out, closing dropdowns",
-      event.target.parentElement.id
-    );
     // * close all the issue search dropdown when clicked outside of the options
     document
       .querySelectorAll(".BL_issue-dropdown")
@@ -284,7 +280,6 @@ document.querySelector(".BL_modal").addEventListener("click", (event) => {
 
 window.handleIssueInputOnBlur = (el) => {
   setTimeout(() => {
-    console.log("Closing options of ", el);
     el.nextElementSibling.style.display = "none";
   }, 500);
 };
