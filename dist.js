@@ -8,12 +8,12 @@ window.BL_TABLE_DOM = `
         <table class="BL_task-table">
           <thead>
             <tr class="BL_table-headings">
-              <th>Issue*</th>
-              <th>Activity*</th>
-              <th>Date*</th>
-              <th>Hours*</th>
-              <th>Comment</th>
-              <th class="task-actions">Actions</th>
+              <th style="width: 20%">Issue*</th>
+              <th style="width: 10%">Activity*</th>
+              <th style="width: 10%">Date*</th>
+              <th style="width: 10%">Hours*</th>
+              <th style="width: 30%">Comment</th>
+              <th style="width: 10%" class="task-actions">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -24,6 +24,7 @@ window.BL_TABLE_DOM = `
                     class="BL_input"
                     type="search"
                     id="searchInput"
+                    style="width:100%"
                     onfocus="this.nextElementSibling.style.display = 'block'"
                     onblur="window.handleIssueInputOnBlur(this)"
                     oninput="window.handleIssueInput(event)"
@@ -73,7 +74,7 @@ window.BL_TABLE_DOM = `
                   <option value="38">Idle Time</option>
                 </select>
               </td>
-              <td><input class="BL_input" type="date" name="date" /></td>
+              <td><input style="width:100%" class="BL_input" type="date" name="date" /></td>
               <td>
                 <input
                   class="BL_input hours"
@@ -87,6 +88,7 @@ window.BL_TABLE_DOM = `
               </td>
               <td>
                 <input
+                  style="width:100%"
                   class="BL_input"
                   class="BL__comment-box"
                   type="text"
@@ -183,7 +185,6 @@ body {
   border-radius: 1rem;
   padding: 0.5rem;
   backdrop-filter: blur(10px);
-  z-index: 2;
   box-shadow: 2px 4px 1rem #bebebe;
 }
 
@@ -218,18 +219,17 @@ body {
 .BL_modal {
   display: flex;
   align-items: center;
-  height: inherit;
   padding: 1rem;
   background-color: rgb(255, 255, 255);
   border-radius: 0.25rem;
 
   /* modal specific */
   position: absolute;
-  z-index: 1;
+  z-index: 99999;
   overflow: auto;
-  top: 20%;
-  left: 20%;
-  right: 20%;
+  top: calc(100vh - 90%);
+  left: calc(100vw - 95%);
+  right: calc(100vw - 95%);
   /* width: 100%;
   height: 100%; */
   animation: change-background 4s ease-in-out infinite alternate-reverse;
@@ -252,14 +252,13 @@ body {
 
 
 .BL_input {
-  width: calc(100% - 10px);
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 3px;
   vertical-align: middle;
 }
 .BL_input.hours {
-  width: 3rem;
+  /* width: 3rem; */
 }
 
 .BL_input:hover,
@@ -276,19 +275,9 @@ body {
 .BL_action_col {
   display: flex;
   text-align: left;
+  gap: 0.5rem;
 }
 
-.BL_row > th,
-.BL_row > td {
-  width: 18%;
-  padding: 15px 0;
-  border-bottom: 1px solid #ccc;
-  text-align: center;
-  vertical-align: unset;
-  line-height: 18px;
-  font-weight: 400;
-  word-break: break-all;
-}
 
 .BL_btn-block {
   margin-top: 20px;
@@ -320,12 +309,20 @@ body {
   gap: 1rem;
 }
 .BL__comment-box {
-  width: 20rem;
+  /* width: 20rem; */
+}
+
+#BL_table_dom {
+  width: 100%;
 }
 
 .BL_message_box {
   color: purple;
   font-family: monospace;
+}
+
+.BL_task-table {
+  width: 100%;
 }
 
 @media (max-width: 900px) {
