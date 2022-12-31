@@ -33,6 +33,7 @@
                     type="search"
                     id="searchInput"
                     onfocus="this.nextElementSibling.style.display = 'block'"
+                    onblur="window.handleIssueInputOnBlur(this)"
                     oninput="window.handleIssueInput(event)"
                     placeholder="Search..."
                   />
@@ -40,7 +41,7 @@
                     class="BL_issue-dropdown"
                     onclick="this.parentElement.firstElementChild.value = event.target.value; this.style.display ='none'"
                   >
-                    <option value="1">*Please Select*</option>
+                    <option >*Type something...*</option>
                   </div>
                 </div>
               </td>

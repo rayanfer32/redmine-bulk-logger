@@ -25,6 +25,7 @@ window.BL_TABLE_DOM = `
                     type="search"
                     id="searchInput"
                     onfocus="this.nextElementSibling.style.display = 'block'"
+                    onblur="window.handleIssueInputOnBlur(this)"
                     oninput="window.handleIssueInput(event)"
                     placeholder="Search..."
                   />
@@ -32,7 +33,7 @@ window.BL_TABLE_DOM = `
                     class="BL_issue-dropdown"
                     onclick="this.parentElement.firstElementChild.value = event.target.value; this.style.display ='none'"
                   >
-                    <option value="1">*Please Select*</option>
+                    <option >*Type something...*</option>
                   </div>
                 </div>
               </td>
@@ -175,10 +176,18 @@ body {
 .BL_issue-dropdown {
   display: none;
   position: fixed;
-  background: silver;
-  padding: 1rem;
-  gap: 1rem;
+  background: #f4ffffb0;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  backdrop-filter: blur(10px);
   z-index: 2;
+  box-shadow: 2px 4px 1rem #bebebe;
+}
+
+
+.BL_issue-dropdown > option {
+  padding: 0.3rem;
+  cursor: pointer;
 }
 
 .BL_close-modal-btn{
@@ -219,7 +228,7 @@ body {
   right: 20%;
   /* width: 100%;
   height: 100%; */
-  animation: change-background 4s ease infinite alternate-reverse;
+  animation: change-background 4s ease-in-out infinite alternate-reverse;
 }
 
 @keyframes change-background {
@@ -233,7 +242,7 @@ body {
     box-shadow: 2px 4px 5rem 15px #f4d6db;
   }
   100% {
-    box-shadow: 2px 4px 5rem 15px #69b7eb;
+    box-shadow: 2px 4px 5rem 15px #e9eb91;
   }
 }
 
@@ -316,74 +325,74 @@ body {
 }`;
 document.head.append(INJECTED_CSS);
 const HAS_BL_INSTANCE_MOUNTED =
-  document.querySelector('.BL_modal')?.hasChildNodes() == true ? true : false;
+  document.querySelector(".BL_modal")?.hasChildNodes() == true ? true : false;
 
 if (!HAS_BL_INSTANCE_MOUNTED) {
   document.body.innerHTML += window.BL_TABLE_DOM;
-  console.log('Redmine Bulk Logger is Loaded!');
+  console.log("Redmine Bulk Logger is Loaded!");
 } else {
-  document.querySelector('.BL_modal').style.display = 'flex';
-  console.log('Redmine Bulk Logger is Already Mounted!');
+  document.querySelector(".BL_modal").style.display = "flex";
+  console.log("Redmine Bulk Logger is Already Mounted!");
 }
 
-const IS_INJECTED = window.location.host.startsWith('redmine');
+const IS_INJECTED = window.location.host.startsWith("redmine");
 const BASE_URL_ORIGIN = window.location.origin;
-const DOMAIN_ENC = 'bml2ZXVzc29sdXRpb25z';
+const DOMAIN_ENC = "bml2ZXVzc29sdXRpb25z";
 const DOMAIN_NAME = atob(DOMAIN_ENC);
-const tableBodyEl = document.querySelector('.BL_task-table > tbody');
-const addNewBtnEl = document.querySelector('#BL_new-task');
+const tableBodyEl = document.querySelector(".BL_task-table > tbody");
+const addNewBtnEl = document.querySelector("#BL_new-task");
 
 if (
-  !window.location.host.startsWith('localhost') &&
-  !window.location.host.startsWith('redmine')
+  !window.location.host.startsWith("localhost") &&
+  !window.location.host.startsWith("redmine")
 ) {
   window.location.href = `https://redmine.${DOMAIN_NAME}.com/time_entries?utf8=%E2%9C%93&set_filter=1&sort=spent_on%3Adesc&f%5B%5D=user_id&op%5Buser_id%5D=%3D&v%5Buser_id%5D%5B%5D=me&f%5B%5D=&c%5B%5D=project&c%5B%5D=spent_on&c%5B%5D=user&c%5B%5D=activity&c%5B%5D=issue&c%5B%5D=comments&c%5B%5D=hours&group_by=spent_on&t%5B%5D=hours&t%5B%5D=`;
-  alert('Redirecting to Redmine time entries page...');
+  alert("Redirecting to Redmine time entries page...");
 }
 
-let REDMINE_API_KEY = localStorage.getItem('RKEY');
+let REDMINE_API_KEY = localStorage.getItem("RKEY");
 
 window.handleAPIsave = (button) => {
   const inputApiKey = button.parentNode.children[2].value;
-  if (inputApiKey == '' || inputApiKey == null || inputApiKey.length != 40) {
-    alert('Please enter a valid API key.');
+  if (inputApiKey == "" || inputApiKey == null || inputApiKey.length != 40) {
+    alert("Please enter a valid API key.");
   } else {
     REDMINE_API_KEY = inputApiKey;
-    localStorage.setItem('RKEY', REDMINE_API_KEY);
-    alert('Saved API key successfully!');
-    document.querySelector('#BL_prompt_api_key').style.display = 'none';
-    document.querySelector('#BL_table_dom').style.display = 'block';
+    localStorage.setItem("RKEY", REDMINE_API_KEY);
+    alert("Saved API key successfully!");
+    document.querySelector("#BL_prompt_api_key").style.display = "none";
+    document.querySelector("#BL_table_dom").style.display = "block";
   }
 };
 
 if (REDMINE_API_KEY == null || REDMINE_API_KEY.length != 40) {
-  document.querySelector('#BL_prompt_api_key').style.display = 'grid';
-  document.querySelector('#BL_table_dom').style.display = 'none';
-  localStorage.setItem('RKEY', REDMINE_API_KEY);
+  document.querySelector("#BL_prompt_api_key").style.display = "grid";
+  document.querySelector("#BL_table_dom").style.display = "none";
+  localStorage.setItem("RKEY", REDMINE_API_KEY);
 }
 
-const selectEl = document.getElementById('activity-select');
+const selectEl = document.getElementById("activity-select");
 
 let ROW_ELEMENT;
 
 function createOptionsNodes(data) {
   data.time_entry_activities.map((item) => {
-    const optionElement = document.createElement('option');
+    const optionElement = document.createElement("option");
 
     optionElement.value = item.id;
     optionElement.text = item.name;
 
     selectEl.appendChild(optionElement);
 
-    ROW_ELEMENT = document.querySelector('#BL_row').cloneNode(true);
+    ROW_ELEMENT = document.querySelector("#BL_row").cloneNode(true);
   });
 }
 
 if (IS_INJECTED) {
   fetch(`${BASE_URL_ORIGIN}/enumerations/time_entry_activities.json`, {
-    method: 'get',
+    method: "get",
     headers: {
-      'X-Redmine-API-Key': REDMINE_API_KEY,
+      "X-Redmine-API-Key": REDMINE_API_KEY,
     },
   })
     .then((res) => res.json())
@@ -392,19 +401,19 @@ if (IS_INJECTED) {
   // createOptionsNodes(ACTIVITIES);
 }
 
-ROW_ELEMENT = document.querySelector('#BL_row').cloneNode(true);
+ROW_ELEMENT = document.querySelector("#BL_row").cloneNode(true);
 
 async function fetchIssuesSearchAPI(query) {
-  console.log('Searching issue: ', query);
+  console.log("Searching issue: ", query);
 
   // return [query + 1, query + 2, query + 3, query + 4];
   try {
     const response = await fetch(
       `${BASE_URL_ORIGIN}/issues/auto_complete?term=${query}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'X-Redmine-API-Key': REDMINE_API_KEY,
+          "X-Redmine-API-Key": REDMINE_API_KEY,
         },
       }
     );
@@ -417,6 +426,13 @@ async function fetchIssuesSearchAPI(query) {
   } catch (err) {
     console.error(err);
   }
+}
+
+// * override the fetch func with hardcoded response
+if (!IS_INJECTED) {
+  fetchIssuesSearchAPI = async () => {
+    return FETCH_AUTOCOMPLETE;
+  };
 }
 
 window.removeRow = function (button) {
@@ -435,14 +451,14 @@ window.copyRow = function (button) {
 };
 
 updateDates = () => {
-  console.log('UPDATING DATES');
-  const updateDateVal = document.querySelector('#BL_update-dates-input').value;
+  console.log("UPDATING DATES");
+  const updateDateVal = document.querySelector("#BL_update-dates-input").value;
   Array.from(tableBodyEl.children).map((rowEl) => {
     rowEl.children[2].firstElementChild.value = updateDateVal;
   });
 };
 
-addNewBtnEl.addEventListener('click', () => {
+addNewBtnEl.addEventListener("click", () => {
   tableBodyEl.appendChild(ROW_ELEMENT.cloneNode(true));
 });
 
@@ -455,10 +471,10 @@ window.handleIssueInput = function (ev) {
     debounceTimer = setTimeout(() => {
       let dropdownEl = ev.target.nextElementSibling;
 
-      dropdownEl.innerHTML = '';
+      dropdownEl.innerHTML = "";
       fetchIssuesSearchAPI(inputVal).then((data) =>
         data.map((item) => {
-          const optionElement = document.createElement('option');
+          const optionElement = document.createElement("option");
 
           optionElement.value = item.id;
           optionElement.text = item.label;
@@ -475,7 +491,7 @@ function calcTotalHours() {
     totalHours += parseFloat(rowEl.children[3].firstElementChild.value);
   });
   document.querySelector(
-    '#total-hours'
+    "#total-hours"
   ).innerHTML = `Total Hours: ${totalHours}`;
 }
 
@@ -500,11 +516,11 @@ function getTasksArrFromDOM() {
 }
 
 function saveTasks() {
-  localStorage.setItem('savedTasks', JSON.stringify(getTasksArrFromDOM()));
+  localStorage.setItem("savedTasks", JSON.stringify(getTasksArrFromDOM()));
 }
 
 function loadTasks() {
-  const loadedTasks = JSON.parse(localStorage.getItem('savedTasks'));
+  const loadedTasks = JSON.parse(localStorage.getItem("savedTasks"));
   loadedTasks?.map((task) => {
     const rowEl = ROW_ELEMENT.cloneNode(true);
     rowEl.children[0].firstElementChild.firstElementChild.value = task.issue_id;
@@ -519,10 +535,10 @@ function loadTasks() {
 function submitEntry(entry) {
   const time_entry = { time_entry: { ...entry } };
   return fetch(`${BASE_URL_ORIGIN}/time_entries.xml`, {
-    method: 'post',
+    method: "post",
     headers: {
-      'Content-Type': 'application/json',
-      'X-Redmine-API-Key': REDMINE_API_KEY,
+      "Content-Type": "application/json",
+      "X-Redmine-API-Key": REDMINE_API_KEY,
     },
     body: JSON.stringify(time_entry),
   });
@@ -530,10 +546,10 @@ function submitEntry(entry) {
 
 // todo: improve the funciton to make parallel async api calls
 async function submitTasks() {
-  const messageBoxEl = document.querySelector('#BL_message_box1')
-  
+  const messageBoxEl = document.querySelector("#BL_message_box1");
+
   const tasksArr = getTasksArrFromDOM();
-  messageBoxEl.innerHTML = `<p style='color: blue'>Submitting ${tasksArr.length} entries please wait...</p>`
+  messageBoxEl.innerHTML = `<p style='color: blue'>Submitting ${tasksArr.length} entries please wait...</p>`;
 
   const successfulSubmissions = [];
   const failedSubmissions = [];
@@ -551,26 +567,50 @@ async function submitTasks() {
     }
   }
 
-  messageBoxEl.innerHTML = `<p style='color: green'>Successfully submitted entries: ${successfulSubmissions.map(i => i.issue_id)}</p>
-  <p style='color: red'>Failed to submit entries:${failedSubmissions.map(i => i.issue_id)}</p>`;
+  messageBoxEl.innerHTML = `<p style='color: green'>Successfully submitted entries: ${successfulSubmissions.map(
+    (i) => i.issue_id
+  )}</p>
+  <p style='color: red'>Failed to submit entries:${failedSubmissions.map(
+    (i) => i.issue_id
+  )}</p>`;
   return { successfulSubmissions, failedSubmissions };
 }
 
 function clearAllTasks() {
-  document.querySelectorAll('#BL_row').forEach((el) => el.remove());
+  document.querySelectorAll("#BL_row").forEach((el) => el.remove());
 }
 
 window.closeModal = function () {
-  document.querySelector('.BL_modal').style.display = 'none';
+  document.querySelector(".BL_modal").style.display = "none";
 };
 
-document.querySelector('#BL_loadTasks').addEventListener('click', loadTasks);
-document.querySelector('#BL_saveTasks').addEventListener('click', saveTasks);
+document.querySelector("#BL_loadTasks").addEventListener("click", loadTasks);
+document.querySelector("#BL_saveTasks").addEventListener("click", saveTasks);
 document
-  .querySelector('#BL_submitTasks')
-  .addEventListener('click', submitTasks);
+  .querySelector("#BL_submitTasks")
+  .addEventListener("click", submitTasks);
 document
-  .querySelector('#BL_clearAllTasks')
-  .addEventListener('click', clearAllTasks);
+  .querySelector("#BL_clearAllTasks")
+  .addEventListener("click", clearAllTasks);
+
+document.querySelector(".BL_modal").addEventListener("click", (event) => {
+  if (["BL_modal", "BL_table_dom"].includes(event.target.parentElement.id)) {
+    console.log(
+      "Clicked out, closing dropdowns",
+      event.target.parentElement.id
+    );
+    // * close all the issue search dropdown when clicked outside of the options
+    document
+      .querySelectorAll(".BL_issue-dropdown")
+      .forEach((div) => (div.style.display = "none"));
+  }
+});
+
+window.handleIssueInputOnBlur = (el) => {
+  setTimeout(() => {
+    console.log("Closing options of ", el);
+    el.nextElementSibling.style.display = "none";
+  }, 500);
+};
 
 setInterval(calcTotalHours, 500);

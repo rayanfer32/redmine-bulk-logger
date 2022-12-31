@@ -8,10 +8,18 @@ body {
 .BL_issue-dropdown {
   display: none;
   position: fixed;
-  background: silver;
-  padding: 1rem;
-  gap: 1rem;
+  background: #f4ffffb0;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  backdrop-filter: blur(10px);
   z-index: 2;
+  box-shadow: 2px 4px 1rem #bebebe;
+}
+
+
+.BL_issue-dropdown > option {
+  padding: 0.3rem;
+  cursor: pointer;
 }
 
 .BL_close-modal-btn{
@@ -52,7 +60,7 @@ body {
   right: 20%;
   /* width: 100%;
   height: 100%; */
-  animation: change-background 4s ease infinite alternate-reverse;
+  animation: change-background 4s ease-in-out infinite alternate-reverse;
 }
 
 @keyframes change-background {
@@ -66,7 +74,7 @@ body {
     box-shadow: 2px 4px 5rem 15px #f4d6db;
   }
   100% {
-    box-shadow: 2px 4px 5rem 15px #69b7eb;
+    box-shadow: 2px 4px 5rem 15px #e9eb91;
   }
 }
 

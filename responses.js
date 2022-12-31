@@ -1,3 +1,5 @@
+const FETCH_AUTOCOMPLETE = [{"id":168420,"label":"Task #168420: 3 in 1- Adding New fields to P7E mode as per API doc","value":168420},{"id":168414,"label":"Task #168414: 3 in 1 : Primary flow development","value":168414},{"id":168063,"label":"Task #168063: UAT Deployment - 3 in 1 - Aadhar Masking","value":168063},{"id":168050,"label":"Task #168050: 3 in 1 | Aadhaar masking - Negative scenarios","value":168050},{"id":168048,"label":"Bug #168048: 3 in 1 | Field Missing ","value":168048},{"id":167962,"label":"Task #167962: 3 in 1: Dedupe validations Integraton","value":167962},{"id":167385,"label":"Task #167385: 3 in 1: API Integration Testing","value":167385},{"id":166160,"label":"Task #166160: 3 in 1 Code cleanup","value":166160},{"id":165694,"label":"Task #165694: 3 in 1: UAT Testing ","value":165694},{"id":165692,"label":"Client Issue #165692: 3 in 1: UAT Support- Update New Indian Address must be mandatory","value":165692}]
+
 const ACTIVITIES = {
   time_entry_activities: [
     {
