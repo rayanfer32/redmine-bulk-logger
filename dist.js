@@ -11,7 +11,7 @@ window.BL_TABLE_DOM = `
               <th style="width: 20%">Issue*</th>
               <th style="width: 10%">Activity*</th>
               <th style="width: 10%">Date*</th>
-              <th style="width: 10%">Hours*</th>
+              <th style="width: 2rem">Hours*</th>
               <th style="width: 30%">Comment</th>
               <th style="width: 10%" class="task-actions">Actions</th>
             </tr>
@@ -219,16 +219,16 @@ body {
   display: flex;
   align-items: center;
   padding: 1rem;
-  background-color: rgb(255, 255, 255);
+  background-color: #fff;
   border-radius: 0.25rem;
 
   /* modal specific */
   position: absolute;
   z-index: 99999;
   overflow: auto;
-  top: calc(100vh - 90%);
-  left: calc(100vw - 95%);
-  right: calc(100vw - 95%);
+  top: calc(100vh - 80%);
+  left: calc(100vw - 80%);
+  right: calc(100vw - 80%);
   /* width: 100%;
   height: 100%; */
   animation: change-background 4s ease-in-out infinite alternate-reverse;
@@ -257,7 +257,7 @@ body {
   vertical-align: middle;
 }
 .BL_input.hours {
-  /* width: 3rem; */
+  width: 3rem;
 }
 
 .BL_input:hover,
@@ -324,6 +324,8 @@ body {
   width: 100%;
 }
 
+
+
 @media (max-width: 900px) {
   .BL_modal {
     top: 0%;
@@ -350,7 +352,17 @@ body {
     margin-bottom: 1rem;
   }
 
-}`;
+}
+
+
+@media (max-width: 1400px) {
+  .BL_modal {
+    top: 10%;
+    left: 10%;
+    right: 10%;
+  }
+}
+`;
 document.head.append(INJECTED_CSS);
 const HAS_BL_INSTANCE_MOUNTED =
   document.querySelector(".BL_modal")?.hasChildNodes() == true ? true : false;
