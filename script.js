@@ -13,14 +13,16 @@ const IS_INJECTED = window.location.host.startsWith("redmine");
 const BASE_URL_ORIGIN = window.location.origin;
 const DOMAIN_ENC = "bml2ZXVzc29sdXRpb25z";
 const DOMAIN_NAME = atob(DOMAIN_ENC);
+const SPENT_TIME_URL = `https://redmine.${DOMAIN_NAME}.com/time_entries?utf8=%E2%9C%93&set_filter=1&sort=spent_on%3Adesc&f%5B%5D=user_id&op%5Buser_id%5D=%3D&v%5Buser_id%5D%5B%5D=me&f%5B%5D=&c%5B%5D=project&c%5B%5D=spent_on&c%5B%5D=user&c%5B%5D=activity&c%5B%5D=issue&c%5B%5D=comments&c%5B%5D=hours&group_by=spent_on&t%5B%5D=hours&t%5B%5D=`
 const tableBodyEl = document.querySelector(".BL_task-table > tbody");
 const addNewBtnEl = document.querySelector("#BL_new-task");
 
+document.querySelector("#BL_spent_time_link").href = SPENT_TIME_URL
 if (
   !window.location.host.startsWith("localhost") &&
   !window.location.host.startsWith("redmine")
 ) {
-  window.location.href = `https://redmine.${DOMAIN_NAME}.com/time_entries?utf8=%E2%9C%93&set_filter=1&sort=spent_on%3Adesc&f%5B%5D=user_id&op%5Buser_id%5D=%3D&v%5Buser_id%5D%5B%5D=me&f%5B%5D=&c%5B%5D=project&c%5B%5D=spent_on&c%5B%5D=user&c%5B%5D=activity&c%5B%5D=issue&c%5B%5D=comments&c%5B%5D=hours&group_by=spent_on&t%5B%5D=hours&t%5B%5D=`;
+  window.location.href = SPENT_TIME_URL;
   alert("Redirecting to Redmine time entries page...");
 }
 
