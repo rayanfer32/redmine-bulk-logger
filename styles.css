@@ -106,9 +106,12 @@ body {
 
 
 .BL_btn-block {
+  display: flex;
+  flex-direction: row;
   margin-top: 20px;
   text-align: center;
-  /* justify-content: space-between; */
+  justify-content: space-evenly;
+  padding: 0px 120px;
 }
 
 .BL_button {
@@ -143,7 +146,7 @@ body {
   display: inline-block;
 }
 
-#BL_loadTasks {
+/* #BL_loadTasks {
   margin: 0px 10px 0px 10px;
 }
 
@@ -157,7 +160,7 @@ body {
 
 #BL_clearAllTasks {
   margin: 0px 20px 0px 10px;
-}
+} */
 
 .BL_button:hover {
   background-color: #79d8b8;
@@ -186,7 +189,7 @@ body {
   width: 100%;
 }
 
-.BL_Heading_2_center {
+.BL_Heading {
   text-align: center;
 }
 
