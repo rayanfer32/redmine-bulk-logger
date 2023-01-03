@@ -2,7 +2,7 @@ window.BL_TABLE_DOM = `
     <div id="BL_modal" class="BL_modal">
       <button class="BL_button BL_close-modal-btn" onclick="closeModal()">x</button>
       <div id="BL_table_dom">
-        <h2>Bulk Logger - v0.1</h2>
+        <h2 class="BL_Heading_2_center">Bulk Logger - v0.1</h2>
         <p>Script to help you log efforts in bulk.</p>
         <p id="BL_message_box1" class="BL_message_box"></p>
         <table class="BL_task-table">
@@ -151,8 +151,9 @@ window.BL_TABLE_DOM = `
           <button class="BL_button" id="BL_submitTasks">Submit All</button>
           <button class="BL_button" id="BL_clearAllTasks">Clear All</button>
         </div>
-        <div>
-          <a href="" id="BL_spent_time_link">Spent Time</a>
+        <div class="BL_spent_time_hyperlink-container">
+          <a href="" id="BL_spent_time_link" class="BL_spent_time_hyperlink">Spent Time </a>
+          <!-- <p class="BL_spent_time_text"> To Check Spent Time</p> -->
         </div>
       </div>
 
@@ -281,6 +282,7 @@ body {
 .BL_btn-block {
   margin-top: 20px;
   text-align: center;
+  /* justify-content: space-between; */
 }
 
 .BL_button {
@@ -295,6 +297,40 @@ body {
   font-size: 16px;
   color: #222;
   cursor: pointer;
+}
+
+.BL_spent_time_hyperlink-container{
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.BL_spent_time_hyperlink{
+  display: inline-block;
+  color: blue;
+  text-decoration: none;
+}
+
+.BL_spent_time_text{
+  margin-top: -2px;
+  display: inline-block;
+}
+
+#BL_loadTasks {
+  margin: 0px 10px 0px 10px;
+}
+
+#BL_saveTasks{
+  margin: 0px 10px 0px 10px;
+}
+
+#BL_submitTasks{
+  margin: 0px 10px 0px 10px;
+}
+
+#BL_clearAllTasks {
+  margin: 0px 20px 0px 10px;
 }
 
 .BL_button:hover {
@@ -322,6 +358,10 @@ body {
 
 .BL_task-table {
   width: 100%;
+}
+
+.BL_Heading_2_center {
+  text-align: center;
 }
 
 
