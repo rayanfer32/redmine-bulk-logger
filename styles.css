@@ -106,8 +106,12 @@ body {
 
 
 .BL_btn-block {
+  display: flex;
+  flex-direction: row;
   margin-top: 20px;
   text-align: center;
+  justify-content: space-evenly;
+  padding: 0px 120px;
 }
 
 .BL_button {
@@ -123,6 +127,40 @@ body {
   color: #222;
   cursor: pointer;
 }
+
+.BL_spent_time_hyperlink-container{
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.BL_spent_time_hyperlink{
+  display: inline-block;
+  color: blue;
+  text-decoration: none;
+}
+
+.BL_spent_time_text{
+  margin-top: -2px;
+  display: inline-block;
+}
+
+/* #BL_loadTasks {
+  margin: 0px 10px 0px 10px;
+}
+
+#BL_saveTasks{
+  margin: 0px 10px 0px 10px;
+}
+
+#BL_submitTasks{
+  margin: 0px 10px 0px 10px;
+}
+
+#BL_clearAllTasks {
+  margin: 0px 20px 0px 10px;
+} */
 
 .BL_button:hover {
   background-color: #79d8b8;
@@ -149,6 +187,10 @@ body {
 
 .BL_task-table {
   width: 100%;
+}
+
+.BL_Heading {
+  text-align: center;
 }
 
 
