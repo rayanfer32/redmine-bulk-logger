@@ -506,6 +506,7 @@ addNewBtnEl.addEventListener('click', () => {
 });
 
 let debounceTimer;
+let DEBOUNCE_DELAY = 300 // * ms
 window.handleIssueInput = function (ev) {
   console.log(ev);
   const inputVal = ev.srcElement.value;
@@ -524,7 +525,7 @@ window.handleIssueInput = function (ev) {
           dropdownEl.appendChild(optionElement);
         })
       );
-    }, 2000);
+    }, DEBOUNCE_DELAY);
   }
 };
 
