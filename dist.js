@@ -324,7 +324,13 @@ body {
   width: 100%;
 }
 
-
+#total-hours {
+  font-size: 1.2rem;
+  /* background-color: #79d8b8; */
+  background-color: #f4d6db;
+  padding: 0.5rem;
+  border-radius: 1rem;
+}
 
 @media (max-width: 900px) {
   .BL_modal {
