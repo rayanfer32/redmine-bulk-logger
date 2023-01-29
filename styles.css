@@ -4,10 +4,25 @@ body {
   min-height: 100%;
 } */
 
+#issue-select {
+  align-items: center;
+  color: black;
+  border-radius: 0.25rem;
+  background-color: #eee;
+}
+
+.BL_issue-label {
+  font-size: 0.7rem;
+  font-family: monospace;
+  padding: 0.2rem;
+  text-overflow: ellipsis;
+}
+
 
 .BL_issue-dropdown {
   display: none;
   position: absolute;
+  color: black;
   background: #f4ffffb0;
   border-radius: 1rem;
   padding: 0.5rem;

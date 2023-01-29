@@ -33,10 +33,11 @@ window.BL_TABLE_DOM = `
                   />
                   <div
                     class="BL_issue-dropdown"
-                    onclick="this.parentElement.firstElementChild.value = event.target.value; this.style.display ='none'"
-                  >
+                    onclick="window.handleIssueOptionClick(this,event)"        
+                    >
                     <option value="1">*Type something...*</option>
                   </div>
+                  <div class="BL_issue-label"></div>
                 </div>
               </td>
               <td>
@@ -178,10 +179,25 @@ body {
   min-height: 100%;
 } */
 
+#issue-select {
+  align-items: center;
+  color: black;
+  border-radius: 0.25rem;
+  background-color: #eee;
+}
+
+.BL_issue-label {
+  font-size: 0.7rem;
+  font-family: monospace;
+  padding: 0.2rem;
+  text-overflow: ellipsis;
+}
+
 
 .BL_issue-dropdown {
   display: none;
   position: absolute;
+  color: black;
   background: #f4ffffb0;
   border-radius: 1rem;
   padding: 0.5rem;
@@ -546,6 +562,14 @@ window.handleIssueInput = function (ev) {
   }
 };
 
+window.handleIssueOptionClick = (el, event) => {
+  let { value, label } = event.target;
+  el.parentElement.firstElementChild.value = value;
+  el.parentElement.firstElementChild.label = label;
+  el.parentElement.children[2].innerHTML = getShortLabel(label);
+  el.style.display = 'none';
+};
+
 function calcTotalHours() {
   let totalHours = 0;
   Array.from(tableBodyEl.children).forEach((rowEl) => {
@@ -562,6 +586,8 @@ function calcTotalHours() {
 
 function getTasksArrFromDOM() {
   const tasksArr = Array.from(tableBodyEl.children).map((rowEl) => {
+    const issue_label =
+      rowEl.children[0].firstElementChild.firstElementChild.label;
     const issue_id =
       rowEl.children[0].firstElementChild.firstElementChild.value;
     const activity_id = rowEl.children[1].firstElementChild.value;
@@ -570,6 +596,7 @@ function getTasksArrFromDOM() {
     const comments = rowEl.children[4].firstElementChild.value;
 
     return {
+      issue_label,
       issue_id,
       activity_id,
       spent_on,
@@ -584,11 +611,17 @@ function saveTasks() {
   localStorage.setItem('savedTasks', JSON.stringify(getTasksArrFromDOM()));
 }
 
+function getShortLabel(label){
+  return label ? label.substring(label.indexOf(':') + 2) : ""
+}
+
 function loadTasks() {
   const loadedTasks = JSON.parse(localStorage.getItem('savedTasks'));
   loadedTasks?.map((task) => {
     const rowEl = ROW_ELEMENT.cloneNode(true);
     rowEl.children[0].firstElementChild.firstElementChild.value = task.issue_id;
+    rowEl.children[0].firstElementChild.firstElementChild.label = task?.issue_label;
+    rowEl.children[0].firstElementChild.children[2].innerHTML = getShortLabel(task?.issue_label);
     rowEl.children[1].firstElementChild.value = task.activity_id;
     rowEl.children[2].firstElementChild.value = task.spent_on;
     rowEl.children[3].firstElementChild.value = task.hours;
@@ -654,7 +687,6 @@ window.openModal = function () {
   document.querySelector('.BL_modal').style.display = 'block';
   document.querySelector('.BL_open-modal-btn').style.display = 'none';
 };
-
 
 document.querySelector('#BL_loadTasks').addEventListener('click', loadTasks);
 document.querySelector('#BL_saveTasks').addEventListener('click', saveTasks);

@@ -41,10 +41,11 @@
                   />
                   <div
                     class="BL_issue-dropdown"
-                    onclick="this.parentElement.firstElementChild.value = event.target.value; this.style.display ='none'"
-                  >
+                    onclick="window.handleIssueOptionClick(this,event)"        
+                    >
                     <option value="1">*Type something...*</option>
                   </div>
+                  <div class="BL_issue-label"></div>
                 </div>
               </td>
               <td>
