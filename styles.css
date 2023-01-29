@@ -7,7 +7,7 @@ body {
 
 .BL_issue-dropdown {
   display: none;
-  position: fixed;
+  position: absolute;
   background: #f4ffffb0;
   border-radius: 1rem;
   padding: 0.5rem;
