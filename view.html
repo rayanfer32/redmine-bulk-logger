@@ -5,11 +5,32 @@
   </head>
 
   <body>
-
     <!-- INJECT START -->
-    <button style="display: none" class="BL_button BL_open-modal-btn" onclick="openModal()">Open Bulk Logger</button>
+    <button
+      style="display: none"
+      class="BL_button BL_open-modal-btn"
+      onclick="openModal()"
+    >
+      Open Bulk Logger
+    </button>
     <div id="BL_modal" class="BL_modal">
-      <button class="BL_button BL_close-modal-btn" onclick="closeModal()">x</button>
+
+        <svg
+          stroke="currentColor"
+          class="BL_button BL_close-modal-btn"
+          fill="currentColor"
+          stroke-width="0"
+          viewBox="0 0 512 512"
+          height="1em"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+          onclick="closeModal()""
+        >
+          <path
+            d="M256 48C140.559 48 48 140.559 48 256c0 115.436 92.559 208 208 208 115.435 0 208-92.564 208-208 0-115.441-92.564-208-208-208zm104.002 282.881l-29.12 29.117L256 285.117l-74.881 74.881-29.121-29.117L226.881 256l-74.883-74.881 29.121-29.116L256 226.881l74.881-74.878 29.12 29.116L285.119 256l74.883 74.881z"
+          ></path>
+        </svg>
+     
       <div id="BL_table_dom">
         <h2>Bulk Logger - v0.2</h2>
         <p>Script to help you log efforts in bulk.</p>
@@ -33,7 +54,7 @@
                     class="BL_input"
                     type="search"
                     id="searchInput"
-                    style="width:100%"
+                    style="width: 100%"
                     onfocus="this.nextElementSibling.style.display = 'block'"
                     onblur="window.handleIssueInputOnBlur(this)"
                     oninput="window.handleIssueInput(event)"
@@ -41,8 +62,8 @@
                   />
                   <div
                     class="BL_issue-dropdown"
-                    onclick="window.handleIssueOptionClick(this,event)"        
-                    >
+                    onclick="window.handleIssueOptionClick(this,event)"
+                  >
                     <option value="1">*Type something...*</option>
                   </div>
                   <div class="BL_issue-label"></div>
@@ -84,7 +105,14 @@
                   <option value="38">Idle Time</option>
                 </select>
               </td>
-              <td><input style="width:100%" class="BL_input" type="date" name="date" /></td>
+              <td>
+                <input
+                  style="width: 100%"
+                  class="BL_input"
+                  type="date"
+                  name="date"
+                />
+              </td>
               <td>
                 <input
                   class="BL_input hours"
@@ -98,7 +126,7 @@
               </td>
               <td>
                 <input
-                  style="width:100%"
+                  style="width: 100%"
                   class="BL_input"
                   class="BL__comment-box"
                   type="text"
@@ -149,10 +177,32 @@
         </table>
 
         <div class="BL_add-new-task">
-          <button class="BL_button" id="BL_new-task">+</button>
+          <button class="BL_button" id="BL_new-task">
+            <svg
+              stroke="currentColor"
+              fill="currentColor"
+              stroke-width="0"
+              viewBox="0 0 448 512"
+              height="1em"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-32 252c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92H92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
+              ></path>
+            </svg>
+          </button>
           <p id="total-hours">Total Hours: 0</p>
-          <input class="BL_input" style="width: 10rem;" id="BL_update-dates-input" type="date" name="date" />
-          <button class="BL_button" onclick="updateDates()">Update Dates</button>
+          <input
+            class="BL_input"
+            style="width: 10rem"
+            id="BL_update-dates-input"
+            type="date"
+            name="date"
+          />
+          <button class="BL_button" onclick="updateDates()">
+            Update Dates
+          </button>
         </div>
 
         <div class="BL_btn-block">
@@ -166,7 +216,10 @@
         </div>
       </div>
 
-      <div id="BL_prompt_api_key" style="display: none;justify-content: center; gap: 1rem">
+      <div
+        id="BL_prompt_api_key"
+        style="display: none; justify-content: center; gap: 1rem"
+      >
         <pre>
           You only need to do this once.
           1. Goto https://redmine.niveussolutions.com/my/account

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Mulish&display=swap'); 
+@import url('https://fonts.googleapis.com/css?family=Mulish&display=swap');
 
 .BL_modal {
   display: flex;
@@ -32,7 +32,6 @@
   text-overflow: ellipsis;
 }
 
-
 .BL_issue-dropdown {
   display: none;
   position: absolute;
@@ -44,17 +43,16 @@
   box-shadow: 2px 4px 1rem #bebebe;
 }
 
-
 .BL_issue-dropdown > option {
   padding: 0.3rem;
   cursor: pointer;
 }
 
-.BL_close-modal-btn{
+.BL_close-modal-btn {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  width: 2rem;
+  /* width: 2rem; */
   border: none;
   border-radius: 0.2rem;
   padding: 0.4rem 1rem;
@@ -93,7 +91,6 @@
   }
 }
 
-
 .BL_input {
   padding: 5px;
   border: 1px solid #ccc;
@@ -122,7 +119,6 @@
   gap: 0.5rem;
 }
 
-
 .BL_btn-block {
   margin-top: 20px;
   text-align: center;
@@ -135,16 +131,16 @@
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 0.5rem;
-  box-shadow: 1px 1px 0.2rem silver;
+  box-shadow: 0px 0px 0.2rem 0.1rem inset #37debd;
   font-size: 1rem;
   font-family: inherit;
   color: #222;
   cursor: pointer;
-  background-color: #80e492;
+  /* background-color: #80e492; */
 }
 
 .BL_button:hover {
-  background-color: #a4e0af;
+  background-color: #aae3d8;
 }
 
 .BL_add-new-task {
@@ -171,10 +167,10 @@
 }
 
 #total-hours {
-  font-size: 1.2rem;
-  background-color: #f4d6db;
+  font-size: 1rem;
+  background-color: #e3a3ae;
   padding: 0.5rem;
-  border-radius: 1rem;
+  border-radius: 0.4rem;
 }
 
 .BL_green {
@@ -188,8 +184,9 @@
     right: 0%;
   }
 
-  #BL_row, .BL_table-headings {
-    display: grid ;
+  #BL_row,
+  .BL_table-headings {
+    display: grid;
     margin-bottom: 1rem;
     width: calc(100vw - 10%);
   }
@@ -206,9 +203,7 @@
     gap: 0.5rem;
     margin-bottom: 1rem;
   }
-
 }
-
 
 @media (max-width: 1400px) {
   .BL_modal {

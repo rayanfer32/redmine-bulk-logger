@@ -1,7 +1,29 @@
 window.BL_TABLE_DOM = `
-    <button style="display: none" class="BL_button BL_open-modal-btn" onclick="openModal()">Open Bulk Logger</button>
+    <button
+      style="display: none"
+      class="BL_button BL_open-modal-btn"
+      onclick="openModal()"
+    >
+      Open Bulk Logger
+    </button>
     <div id="BL_modal" class="BL_modal">
-      <button class="BL_button BL_close-modal-btn" onclick="closeModal()">x</button>
+
+        <svg
+          stroke="currentColor"
+          class="BL_button BL_close-modal-btn"
+          fill="currentColor"
+          stroke-width="0"
+          viewBox="0 0 512 512"
+          height="1em"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+          onclick="closeModal()""
+        >
+          <path
+            d="M256 48C140.559 48 48 140.559 48 256c0 115.436 92.559 208 208 208 115.435 0 208-92.564 208-208 0-115.441-92.564-208-208-208zm104.002 282.881l-29.12 29.117L256 285.117l-74.881 74.881-29.121-29.117L226.881 256l-74.883-74.881 29.121-29.116L256 226.881l74.881-74.878 29.12 29.116L285.119 256l74.883 74.881z"
+          ></path>
+        </svg>
+     
       <div id="BL_table_dom">
         <h2>Bulk Logger - v0.2</h2>
         <p>Script to help you log efforts in bulk.</p>
@@ -25,7 +47,7 @@ window.BL_TABLE_DOM = `
                     class="BL_input"
                     type="search"
                     id="searchInput"
-                    style="width:100%"
+                    style="width: 100%"
                     onfocus="this.nextElementSibling.style.display = 'block'"
                     onblur="window.handleIssueInputOnBlur(this)"
                     oninput="window.handleIssueInput(event)"
@@ -33,8 +55,8 @@ window.BL_TABLE_DOM = `
                   />
                   <div
                     class="BL_issue-dropdown"
-                    onclick="window.handleIssueOptionClick(this,event)"        
-                    >
+                    onclick="window.handleIssueOptionClick(this,event)"
+                  >
                     <option value="1">*Type something...*</option>
                   </div>
                   <div class="BL_issue-label"></div>
@@ -76,7 +98,14 @@ window.BL_TABLE_DOM = `
                   <option value="38">Idle Time</option>
                 </select>
               </td>
-              <td><input style="width:100%" class="BL_input" type="date" name="date" /></td>
+              <td>
+                <input
+                  style="width: 100%"
+                  class="BL_input"
+                  type="date"
+                  name="date"
+                />
+              </td>
               <td>
                 <input
                   class="BL_input hours"
@@ -90,7 +119,7 @@ window.BL_TABLE_DOM = `
               </td>
               <td>
                 <input
-                  style="width:100%"
+                  style="width: 100%"
                   class="BL_input"
                   class="BL__comment-box"
                   type="text"
@@ -141,10 +170,32 @@ window.BL_TABLE_DOM = `
         </table>
 
         <div class="BL_add-new-task">
-          <button class="BL_button" id="BL_new-task">+</button>
+          <button class="BL_button" id="BL_new-task">
+            <svg
+              stroke="currentColor"
+              fill="currentColor"
+              stroke-width="0"
+              viewBox="0 0 448 512"
+              height="1em"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-32 252c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92H92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
+              ></path>
+            </svg>
+          </button>
           <p id="total-hours">Total Hours: 0</p>
-          <input class="BL_input" style="width: 10rem;" id="BL_update-dates-input" type="date" name="date" />
-          <button class="BL_button" onclick="updateDates()">Update Dates</button>
+          <input
+            class="BL_input"
+            style="width: 10rem"
+            id="BL_update-dates-input"
+            type="date"
+            name="date"
+          />
+          <button class="BL_button" onclick="updateDates()">
+            Update Dates
+          </button>
         </div>
 
         <div class="BL_btn-block">
@@ -158,7 +209,10 @@ window.BL_TABLE_DOM = `
         </div>
       </div>
 
-      <div id="BL_prompt_api_key" style="display: none;justify-content: center; gap: 1rem">
+      <div
+        id="BL_prompt_api_key"
+        style="display: none; justify-content: center; gap: 1rem"
+      >
         <pre>
           You only need to do this once.
           1. Goto https://redmine.niveussolutions.com/my/account
@@ -173,7 +227,7 @@ window.BL_TABLE_DOM = `
     </div>
     `;
 const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = `
-@import url('https://fonts.googleapis.com/css?family=Mulish&display=swap'); 
+@import url('https://fonts.googleapis.com/css?family=Mulish&display=swap');
 
 .BL_modal {
   display: flex;
@@ -207,7 +261,6 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
   text-overflow: ellipsis;
 }
 
-
 .BL_issue-dropdown {
   display: none;
   position: absolute;
@@ -219,17 +272,16 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
   box-shadow: 2px 4px 1rem #bebebe;
 }
 
-
 .BL_issue-dropdown > option {
   padding: 0.3rem;
   cursor: pointer;
 }
 
-.BL_close-modal-btn{
+.BL_close-modal-btn {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  width: 2rem;
+  /* width: 2rem; */
   border: none;
   border-radius: 0.2rem;
   padding: 0.4rem 1rem;
@@ -268,7 +320,6 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
   }
 }
 
-
 .BL_input {
   padding: 5px;
   border: 1px solid #ccc;
@@ -297,7 +348,6 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
   gap: 0.5rem;
 }
 
-
 .BL_btn-block {
   margin-top: 20px;
   text-align: center;
@@ -310,16 +360,16 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 0.5rem;
-  box-shadow: 1px 1px 0.2rem silver;
+  box-shadow: 0px 0px 0.2rem 0.1rem inset #37debd;
   font-size: 1rem;
   font-family: inherit;
   color: #222;
   cursor: pointer;
-  background-color: #80e492;
+  /* background-color: #80e492; */
 }
 
 .BL_button:hover {
-  background-color: #a4e0af;
+  background-color: #aae3d8;
 }
 
 .BL_add-new-task {
@@ -346,10 +396,10 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
 }
 
 #total-hours {
-  font-size: 1.2rem;
-  background-color: #f4d6db;
+  font-size: 1rem;
+  background-color: #e3a3ae;
   padding: 0.5rem;
-  border-radius: 1rem;
+  border-radius: 0.4rem;
 }
 
 .BL_green {
@@ -363,8 +413,9 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
     right: 0%;
   }
 
-  #BL_row, .BL_table-headings {
-    display: grid ;
+  #BL_row,
+  .BL_table-headings {
+    display: grid;
     margin-bottom: 1rem;
     width: calc(100vw - 10%);
   }
@@ -381,9 +432,7 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
     gap: 0.5rem;
     margin-bottom: 1rem;
   }
-
 }
-
 
 @media (max-width: 1400px) {
   .BL_modal {
@@ -577,7 +626,7 @@ function calcTotalHours() {
   if (totalHours >= 8) {
     totalHoursEl.style.backgroundColor = '#79d8b8';
   } else {
-    totalHoursEl.style.backgroundColor = '#f4d6db';
+    totalHoursEl.style.backgroundColor = '#e3a3ae';
   }
 }
 

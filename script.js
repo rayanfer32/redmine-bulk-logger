@@ -181,7 +181,7 @@ function calcTotalHours() {
   if (totalHours >= 8) {
     totalHoursEl.style.backgroundColor = '#79d8b8';
   } else {
-    totalHoursEl.style.backgroundColor = '#f4d6db';
+    totalHoursEl.style.backgroundColor = '#e3a3ae';
   }
 }
 
