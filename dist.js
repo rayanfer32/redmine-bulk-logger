@@ -1,4 +1,5 @@
 window.BL_TABLE_DOM = `
+    <button style="display: none" class="BL_button BL_open-modal-btn" onclick="openModal()">Open Bulk Logger</button>
     <div id="BL_modal" class="BL_modal">
       <button class="BL_button BL_close-modal-btn" onclick="closeModal()">x</button>
       <div id="BL_table_dom">
@@ -205,6 +206,12 @@ body {
   cursor: pointer;
 }
 
+.BL_open-modal-btn {
+  position: fixed;
+  top: 0.2rem;
+  left: 45vw;
+}
+
 .BL_select {
   padding: 0;
   margin: 0;
@@ -229,9 +236,10 @@ body {
   top: calc(100vh - 80%);
   left: calc(100vw - 80%);
   right: calc(100vw - 80%);
+  box-shadow: 2px 4px 2rem 15px #e3e8ea, 2px 4px 1rem inset #f0f3f4;
   /* width: 100%;
   height: 100%; */
-  animation: change-background 4s ease-in-out infinite alternate-reverse;
+  /* animation: change-background 4s ease-in-out infinite alternate-reverse; */
 }
 
 @keyframes change-background {
@@ -326,10 +334,13 @@ body {
 
 #total-hours {
   font-size: 1.2rem;
-  /* background-color: #79d8b8; */
   background-color: #f4d6db;
   padding: 0.5rem;
   border-radius: 1rem;
+}
+
+.BL_green {
+  background-color: #79d8b8;
 }
 
 @media (max-width: 900px) {
@@ -512,7 +523,7 @@ addNewBtnEl.addEventListener('click', () => {
 });
 
 let debounceTimer;
-let DEBOUNCE_DELAY = 300 // * ms
+let DEBOUNCE_DELAY = 300; // * ms
 window.handleIssueInput = function (ev) {
   console.log(ev);
   const inputVal = ev.srcElement.value;
@@ -540,9 +551,13 @@ function calcTotalHours() {
   Array.from(tableBodyEl.children).forEach((rowEl) => {
     totalHours += parseFloat(rowEl.children[3].firstElementChild.value);
   });
-  document.querySelector(
-    '#total-hours'
-  ).innerHTML = `Total Hours: ${totalHours}`;
+  let totalHoursEl = document.querySelector('#total-hours');
+  totalHoursEl.innerHTML = `Total Hours: ${totalHours}`;
+  if (totalHours >= 8) {
+    totalHoursEl.style.backgroundColor = '#79d8b8';
+  } else {
+    totalHoursEl.style.backgroundColor = '#f4d6db';
+  }
 }
 
 function getTasksArrFromDOM() {
@@ -632,6 +647,12 @@ function clearAllTasks() {
 
 window.closeModal = function () {
   document.querySelector('.BL_modal').style.display = 'none';
+  document.querySelector('.BL_open-modal-btn').style.display = 'block';
+};
+
+window.openModal = function () {
+  document.querySelector('.BL_modal').style.display = 'block';
+  document.querySelector('.BL_open-modal-btn').style.display = 'none';
 };
 
 

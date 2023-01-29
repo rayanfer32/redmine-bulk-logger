@@ -140,7 +140,7 @@ addNewBtnEl.addEventListener('click', () => {
 });
 
 let debounceTimer;
-let DEBOUNCE_DELAY = 300 // * ms
+let DEBOUNCE_DELAY = 300; // * ms
 window.handleIssueInput = function (ev) {
   console.log(ev);
   const inputVal = ev.srcElement.value;
@@ -168,9 +168,13 @@ function calcTotalHours() {
   Array.from(tableBodyEl.children).forEach((rowEl) => {
     totalHours += parseFloat(rowEl.children[3].firstElementChild.value);
   });
-  document.querySelector(
-    '#total-hours'
-  ).innerHTML = `Total Hours: ${totalHours}`;
+  let totalHoursEl = document.querySelector('#total-hours');
+  totalHoursEl.innerHTML = `Total Hours: ${totalHours}`;
+  if (totalHours >= 8) {
+    totalHoursEl.style.backgroundColor = '#79d8b8';
+  } else {
+    totalHoursEl.style.backgroundColor = '#f4d6db';
+  }
 }
 
 function getTasksArrFromDOM() {
@@ -260,6 +264,12 @@ function clearAllTasks() {
 
 window.closeModal = function () {
   document.querySelector('.BL_modal').style.display = 'none';
+  document.querySelector('.BL_open-modal-btn').style.display = 'block';
+};
+
+window.openModal = function () {
+  document.querySelector('.BL_modal').style.display = 'block';
+  document.querySelector('.BL_open-modal-btn').style.display = 'none';
 };
 
 
