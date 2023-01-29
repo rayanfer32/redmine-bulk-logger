@@ -3,7 +3,7 @@ window.BL_TABLE_DOM = `
     <div id="BL_modal" class="BL_modal">
       <button class="BL_button BL_close-modal-btn" onclick="closeModal()">x</button>
       <div id="BL_table_dom">
-        <h2>Bulk Logger - v0.1</h2>
+        <h2>Bulk Logger - v0.2</h2>
         <p>Script to help you log efforts in bulk.</p>
         <p id="BL_message_box1" class="BL_message_box"></p>
         <table class="BL_task-table">
@@ -173,11 +173,25 @@ window.BL_TABLE_DOM = `
     </div>
     `;
 const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = `
-/* @import url('https://fonts.googleapis.com/css?family=Balthazar&display=swap'); */
-/* html,
-body {
-  min-height: 100%;
-} */
+@import url('https://fonts.googleapis.com/css?family=Mulish&display=swap'); 
+
+.BL_modal {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 0.25rem;
+  font-family: Mulish;
+  /* modal specific */
+  position: absolute;
+  z-index: 99999;
+  overflow: auto;
+  top: calc(100vh - 80%);
+  left: calc(100vw - 80%);
+  right: calc(100vw - 80%);
+  box-shadow: 0 0 2rem 2rem silver;
+  /* animation: change-background 4s ease-in-out infinite alternate-reverse; */
+}
 
 #issue-select {
   align-items: center;
@@ -232,30 +246,11 @@ body {
   padding: 0;
   margin: 0;
   outline: none;
+  font-family: inherit;
   /* font-size: 1rem; */
   color: #1f1e1e;
   line-height: 22px;
   border-radius: 3px;
-}
-
-.BL_modal {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  background-color: #fff;
-  border-radius: 0.25rem;
-
-  /* modal specific */
-  position: absolute;
-  z-index: 99999;
-  overflow: auto;
-  top: calc(100vh - 80%);
-  left: calc(100vw - 80%);
-  right: calc(100vw - 80%);
-  box-shadow: 2px 4px 2rem 15px #e3e8ea, 2px 4px 1rem inset #f0f3f4;
-  /* width: 100%;
-  height: 100%; */
-  /* animation: change-background 4s ease-in-out infinite alternate-reverse; */
 }
 
 @keyframes change-background {
@@ -279,6 +274,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 3px;
   vertical-align: middle;
+  font-family: inherit;
 }
 .BL_input.hours {
   width: 3rem;
@@ -314,15 +310,16 @@ body {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 0.5rem;
-  background-color: #eef0ee;
   box-shadow: 1px 1px 0.2rem silver;
-  font-size: 16px;
+  font-size: 1rem;
+  font-family: inherit;
   color: #222;
   cursor: pointer;
+  background-color: #80e492;
 }
 
 .BL_button:hover {
-  background-color: #79d8b8;
+  background-color: #a4e0af;
 }
 
 .BL_add-new-task {
