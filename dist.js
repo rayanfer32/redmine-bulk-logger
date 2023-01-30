@@ -227,7 +227,7 @@ window.BL_TABLE_DOM = `
     </div>
     `;
 const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = `
-@import url('https://fonts.googleapis.com/css?family=Mulish&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Fira+Code&display=swap');
 
 .BL_modal {
   display: flex;
@@ -235,7 +235,7 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
   padding: 1rem;
   background-color: #fff;
   border-radius: 0.25rem;
-  font-family: Mulish;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   /* modal specific */
   position: absolute;
   z-index: 99999;
@@ -243,7 +243,7 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
   top: calc(100vh - 80%);
   left: calc(100vw - 80%);
   right: calc(100vw - 80%);
-  box-shadow: 0 0 2rem 2rem silver;
+  box-shadow: 0 0 5rem 2rem silver;
   /* animation: change-background 4s ease-in-out infinite alternate-reverse; */
 }
 
@@ -351,6 +351,9 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
 .BL_btn-block {
   margin-top: 20px;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .BL_button {
@@ -360,7 +363,7 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 0.5rem;
-  box-shadow: 0px 0px 0.2rem 0.1rem inset #37debd;
+  box-shadow: 0px 0px 0.2rem silver ;
   font-size: 1rem;
   font-family: inherit;
   color: #222;
@@ -369,7 +372,7 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
 }
 
 .BL_button:hover {
-  background-color: #aae3d8;
+  background-color: white;
 }
 
 .BL_add-new-task {
