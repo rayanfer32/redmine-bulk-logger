@@ -185,7 +185,7 @@ window.BL_TABLE_DOM = `
               ></path>
             </svg>
           </button>
-          <p id="total-hours">Total Hours: 0</p>
+          <div id="total-hours">Total Hours: 0</div>
           <input
             class="BL_input"
             style="width: 10rem"
@@ -349,16 +349,15 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
 }
 
 .BL_btn-block {
-  margin-top: 20px;
   text-align: center;
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .BL_button {
   height: auto;
-  padding: 10px;
+  padding: 0.5rem;
   border: none;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -379,7 +378,8 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.5rem;
+  margin: 0.8rem;
 }
 .BL__comment-box {
   /* width: 20rem; */
