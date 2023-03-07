@@ -31,8 +31,8 @@ async function main() {
   const cssPart = await fs.promises.readFile('./styles.css', 'utf8');
   const JsPart = await fs.promises.readFile('./script.js', 'utf8');
 
+  // * avoid setting dom directly , lets set it to a window variable and use it as needed.
   const injectionCode =
-    // * avoid setting dom directly , lets set it to a window variable and use it as needed.
     'window.BL_TABLE_DOM = `' +
     htmlPart +
     '`;\n' +
@@ -42,7 +42,22 @@ async function main() {
     'document.head.append(INJECTED_CSS)' +
     ';\n' +
     JsPart;
-  await fs.promises.writeFile('dist.js', injectionCode);
+
+  const toastifyJsPart = await fs.promises.readFile('toastify.js', 'utf8');
+  const toastifyCssPart = await fs.promises.readFile('./toastify.css', 'utf8');
+
+  const toastifyInjectionCode =
+    "const TOASTIFY_CSS = document.createElement('style');TOASTIFY_CSS.textContent = `\n" +
+    toastifyCssPart +
+    '`;\n' +
+    'document.head.append(TOASTIFY_CSS)' +
+    ';\n' +
+    toastifyJsPart;
+
+  await fs.promises.writeFile(
+    'dist.js',
+    toastifyInjectionCode + '\n' + injectionCode
+  );
 }
 
 main();

@@ -1,3 +1,15 @@
+const toastifyOptions = {
+  position: 'center',
+  gravity: 'top', // `top` or `bottom`
+  autoClose: 3000,
+  text: 'Success!',
+  close: true,
+  style: {
+    background: '#0f3443',
+  },
+  stopOnFocus: true, // Prevents dismissing of toast on hover
+};
+
 const HAS_BL_INSTANCE_MOUNTED =
   document.querySelector('.BL_modal')?.hasChildNodes() == true ? true : false;
 
@@ -133,6 +145,10 @@ updateDates = () => {
   Array.from(tableBodyEl.children).map((rowEl) => {
     rowEl.children[2].firstElementChild.value = updateDateVal;
   });
+  Toastify({
+    ...toastifyOptions,
+    text: 'Updated all Dates to ' + updateDateVal,
+  }).showToast();
 };
 
 addNewBtnEl.addEventListener('click', () => {
@@ -209,11 +225,19 @@ function getTasksArrFromDOM() {
 }
 
 function saveTasks() {
-  localStorage.setItem('savedTasks', JSON.stringify(getTasksArrFromDOM()));
+  const tasksStr = JSON.stringify(getTasksArrFromDOM(), null, 2);
+  const confirmed = confirm('Are you sure to save?\n' + tasksStr);
+  if (confirmed) {
+    localStorage.setItem('savedTasks', tasksStr);
+    Toastify({
+      ...toastifyOptions,
+      text: `Saved all Tasks`,
+    }).showToast();
+  }
 }
 
-function getShortLabel(label){
-  return label ? label.substring(label.indexOf(':') + 2) : ""
+function getShortLabel(label) {
+  return label ? label.substring(label.indexOf(':') + 2) : '';
 }
 
 function loadTasks() {
@@ -221,14 +245,21 @@ function loadTasks() {
   loadedTasks?.map((task) => {
     const rowEl = ROW_ELEMENT.cloneNode(true);
     rowEl.children[0].firstElementChild.firstElementChild.value = task.issue_id;
-    rowEl.children[0].firstElementChild.firstElementChild.label = task?.issue_label;
-    rowEl.children[0].firstElementChild.children[2].innerHTML = getShortLabel(task?.issue_label);
+    rowEl.children[0].firstElementChild.firstElementChild.label =
+      task?.issue_label;
+    rowEl.children[0].firstElementChild.children[2].innerHTML = getShortLabel(
+      task?.issue_label
+    );
     rowEl.children[1].firstElementChild.value = task.activity_id;
     rowEl.children[2].firstElementChild.value = task.spent_on;
     rowEl.children[3].firstElementChild.value = task.hours;
     rowEl.children[4].firstElementChild.value = task.comments;
     tableBodyEl.appendChild(rowEl);
   });
+  Toastify({
+    ...toastifyOptions,
+    text: `Loaded ${loadedTasks.length} Tasks`,
+  }).showToast();
 }
 
 function submitEntry(entry) {
@@ -272,11 +303,18 @@ async function submitTasks() {
   <p style='color: red'>Failed to submit entries:${failedSubmissions.map(
     (i) => i.issue_id
   )}</p>`;
+
+  Toastify({ ...toastifyOptions, text: 'Submitted all entries' }).showToast();
+
   return { successfulSubmissions, failedSubmissions };
 }
 
 function clearAllTasks() {
   document.querySelectorAll('#BL_row').forEach((el) => el.remove());
+  Toastify({
+    ...toastifyOptions,
+    text: `Cleared All Tasks`,
+  }).showToast();
 }
 
 window.closeModal = function () {

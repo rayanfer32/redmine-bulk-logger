@@ -230,3 +230,4 @@ const savedTasks = [
     comments: '3 in 1: Internal Team discussion',
   },
 ];
+// localStorage.savedTasks = JSON.stringify(savedTasks);
