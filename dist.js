@@ -378,6 +378,8 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
   display: flex;
   text-align: left;
   gap: 0.5rem;
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .BL_btn-block {
@@ -404,6 +406,9 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
 
 .BL_button:hover {
   background-color: white;
+}
+.BL_button:active {
+  background-color: #79d8b8;
 }
 
 .BL_add-new-task {
