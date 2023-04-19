@@ -710,7 +710,7 @@ window.handleIssueOptionClick = (el, event) => {
   let { value, label } = event.target;
   el.parentElement.firstElementChild.value = value;
   el.parentElement.firstElementChild.label = label;
-  el.parentElement.children[2].innerHTML = getShortLabel(label);
+  el.parentElement.children[2].innerHTML = label ?? '';
   el.style.display = 'none';
 };
 
