@@ -54,10 +54,19 @@ async function main() {
     ';\n' +
     toastifyJsPart;
 
-  await fs.promises.writeFile(
-    'dist.js',
-    toastifyInjectionCode + '\n' + injectionCode
-  );
+  // * create dist.js
+  const distContent = toastifyInjectionCode + '\n' + injectionCode;
+  await fs.promises.writeFile('dist.js', distContent);
+
+  // * create extension.js
+  // ! not supported , since the site has content security policy flag to prevent inline injection
+  // let extensionContent = `(function () {
+  //     const script = document.createElement('script');
+  //     script.text = \`(${escape(distContent)})();\`;
+  //     document.documentElement.appendChild(script);
+  // })();
+  // `;
+  // await fs.promises.writeFile('extension.js', extensionContent);
 }
 
 main();

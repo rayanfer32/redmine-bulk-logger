@@ -576,11 +576,14 @@ function createMyIssuesNodes(data = []) {
     const optionElement = document.createElement('option');
 
     optionElement.value = item.id;
-    optionElement.text = item.subject;
+    optionElement.text = `$#{item.id} | ${item.subject}`;
 
     const issueDropdownEl = document.querySelector('.BL_issue-dropdown');
     issueDropdownEl.appendChild(optionElement);
   });
+
+  // * update the  ROW_ELEMENT  with issue options
+  ROW_ELEMENT = document.querySelector('#BL_row').cloneNode(true);
 }
 
 if (IS_INJECTED) {
@@ -871,7 +874,6 @@ document.querySelector('.BL_modal').addEventListener('click', (event) => {
       .forEach((div) => (div.style.display = 'none'));
   }
 });
-
 
 window.handleIssueInputOnBlur = (el) => {
   setTimeout(() => {

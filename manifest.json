@@ -1,0 +1,12 @@
+{
+    "name": "Redmine Bulk Logger",
+    "version": "1.0",
+    "manifest_version": 3,
+    "content_scripts": [
+        {
+            "matches": ["https://*/*"],
+            "js": ["extension.js"]
+        }
+    ],
+    "host_permissions": ["<all_urls>"]
+}
