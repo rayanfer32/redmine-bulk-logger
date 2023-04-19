@@ -58,6 +58,7 @@
                     onfocus="this.nextElementSibling.style.display = 'block'"
                     onblur="window.handleIssueInputOnBlur(this)"
                     oninput="window.handleIssueInput(event)"
+                    autocomplete="off"
                     placeholder="Search..."
                   />
                   <div
@@ -211,8 +212,9 @@
           <button class="BL_button" id="BL_submitTasks">Submit All</button>
           <button class="BL_button" id="BL_clearAllTasks">Clear All</button>
         </div>
-        <div>
-          <a href="" id="BL_spent_time_link">Spent Time</a>
+        <div class="BL_links">
+          <a href="" target="_blank" id="BL_spent_time_link">Spent Time</a>
+          <a href="" target="_blank" id="BL_my_issues_link">My Issues</a>
         </div>
       </div>
 

@@ -83,6 +83,7 @@ window.BL_TABLE_DOM = `
                     onfocus="this.nextElementSibling.style.display = 'block'"
                     onblur="window.handleIssueInputOnBlur(this)"
                     oninput="window.handleIssueInput(event)"
+                    autocomplete="off"
                     placeholder="Search..."
                   />
                   <div
@@ -236,8 +237,9 @@ window.BL_TABLE_DOM = `
           <button class="BL_button" id="BL_submitTasks">Submit All</button>
           <button class="BL_button" id="BL_clearAllTasks">Clear All</button>
         </div>
-        <div>
-          <a href="" id="BL_spent_time_link">Spent Time</a>
+        <div class="BL_links">
+          <a href="" target="_blank" id="BL_spent_time_link">Spent Time</a>
+          <a href="" target="_blank" id="BL_my_issues_link">My Issues</a>
         </div>
       </div>
 
@@ -422,6 +424,11 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
   /* width: 20rem; */
 }
 
+.BL_links {
+  display: flex;
+  gap: 1rem;
+}
+
 #BL_table_dom {
   width: 100%;
 }
@@ -511,10 +518,12 @@ const BASE_URL_ORIGIN = window.location.origin;
 const DOMAIN_ENC = 'bml2ZXVzc29sdXRpb25z';
 const DOMAIN_NAME = atob(DOMAIN_ENC);
 const SPENT_TIME_URL = `https://redmine.${DOMAIN_NAME}.com/time_entries?utf8=%E2%9C%93&set_filter=1&sort=spent_on%3Adesc&f%5B%5D=user_id&op%5Buser_id%5D=%3D&v%5Buser_id%5D%5B%5D=me&f%5B%5D=&c%5B%5D=project&c%5B%5D=spent_on&c%5B%5D=user&c%5B%5D=activity&c%5B%5D=issue&c%5B%5D=comments&c%5B%5D=hours&group_by=spent_on&t%5B%5D=hours&t%5B%5D=`;
+const MY_ISSUES_URL = `https://redmine.${DOMAIN_NAME}.com/issues?utf8=%E2%9C%93&set_filter=1&sort=id%3Adesc&f%5B%5D=status_id&op%5Bstatus_id%5D=o&f%5B%5D=assigned_to_id&op%5Bassigned_to_id%5D=%3D&v%5Bassigned_to_id%5D%5B%5D=me&f%5B%5D=&c%5B%5D=project&c%5B%5D=tracker&c%5B%5D=status&c%5B%5D=priority&c%5B%5D=subject&c%5B%5D=assigned_to&c%5B%5D=updated_on&c%5B%5D=category&c%5B%5D=estimated_hours&c%5B%5D=spent_hours&c%5B%5D=cf_37&c%5B%5D=cf_40&c%5B%5D=fixed_version&group_by=&t%5B%5D=`;
 const tableBodyEl = document.querySelector('.BL_task-table > tbody');
 const addNewBtnEl = document.querySelector('#BL_new-task');
 
 document.querySelector('#BL_spent_time_link').href = SPENT_TIME_URL;
+document.querySelector('#BL_my_issues_link').href = MY_ISSUES_URL;
 
 const ALLOWED_DOMAINS = ['localhost', 'redmine', '127.0.0.1'];
 if (ALLOWED_DOMAINS.some((item) => window.location.host.startsWith(item))) {
@@ -562,6 +571,18 @@ function createOptionsNodes(data) {
   });
 }
 
+function createMyIssuesNodes(data = []) {
+  data.map((item) => {
+    const optionElement = document.createElement('option');
+
+    optionElement.value = item.id;
+    optionElement.text = item.subject;
+
+    const issueDropdownEl = document.querySelector('.BL_issue-dropdown');
+    issueDropdownEl.appendChild(optionElement);
+  });
+}
+
 if (IS_INJECTED) {
   fetch(`${BASE_URL_ORIGIN}/enumerations/time_entry_activities.json`, {
     method: 'get',
@@ -601,6 +622,27 @@ async function fetchIssuesSearchAPI(query) {
     console.error(err);
   }
 }
+
+// todo: fetch my issues from redmine
+async function fetchMyIssuesAPI() {
+  try {
+    const response = await fetch('/issues.json?assigned_to_id=me', {
+      method: 'GET',
+      headers: {
+        'X-Redmine-API-Key': REDMINE_API_KEY,
+      },
+    });
+    if (response.ok) {
+      const result = await response.json();
+      createMyIssuesNodes(result.issues);
+      return result;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+fetchMyIssuesAPI();
 
 // * override the fetch func with hardcoded response
 if (!IS_INJECTED) {
@@ -829,6 +871,7 @@ document.querySelector('.BL_modal').addEventListener('click', (event) => {
       .forEach((div) => (div.style.display = 'none'));
   }
 });
+
 
 window.handleIssueInputOnBlur = (el) => {
   setTimeout(() => {

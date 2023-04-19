@@ -161,6 +161,11 @@
   /* width: 20rem; */
 }
 
+.BL_links {
+  display: flex;
+  gap: 1rem;
+}
+
 #BL_table_dom {
   width: 100%;
 }
