@@ -84,7 +84,7 @@ function createMyIssuesNodes(data = []) {
     const optionElement = document.createElement('option');
 
     optionElement.value = item.id;
-    optionElement.text = `$#{item.id} | ${item.subject}`;
+    optionElement.text = `${item.tracker.name} #${item.id}: ${item.subject}`;
 
     const issueDropdownEl = document.querySelector('.BL_issue-dropdown');
     issueDropdownEl.appendChild(optionElement);
