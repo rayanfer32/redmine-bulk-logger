@@ -57,7 +57,7 @@ window.BL_TABLE_DOM = `
         </svg>
      
       <div id="BL_table_dom">
-        <h2>Bulk Logger - v0.3</h2>
+        <h2>Bulk Logger - v0.4</h2>
         <p>Script to help you log efforts in bulk.</p>
         <p id="BL_message_box1" class="BL_message_box"></p>
         <table class="BL_task-table">
@@ -232,10 +232,13 @@ window.BL_TABLE_DOM = `
         </div>
 
         <div class="BL_btn-block">
+         
           <button class="BL_button" id="BL_loadTasks">Load</button>
           <button class="BL_button" id="BL_saveTasks">Save</button>
           <button class="BL_button" id="BL_submitTasks">Submit All</button>
           <button class="BL_button" id="BL_clearAllTasks">Clear All</button>
+          <button class="BL_button" id="BL_importTasks">Import</button>
+          <button class="BL_button" id="BL_exportTasks">Export</button>
         </div>
         <div class="BL_links">
           <a href="" target="_blank" id="BL_spent_time_link">Spent Time</a>
@@ -770,9 +773,8 @@ function getShortLabel(label) {
   return label ? label.substring(label.indexOf(':') + 2) : '';
 }
 
-function loadTasks() {
-  const loadedTasks = JSON.parse(localStorage.getItem('savedTasks'));
-  loadedTasks?.map((task) => {
+function loadTasksFromTasksArr(tasksArr) {
+  tasksArr?.map((task) => {
     const rowEl = ROW_ELEMENT.cloneNode(true);
     rowEl.children[0].firstElementChild.firstElementChild.value = task.issue_id;
     rowEl.children[0].firstElementChild.firstElementChild.label =
@@ -790,6 +792,12 @@ function loadTasks() {
     ...toastifyOptions,
     text: `Loaded ${loadedTasks.length} Tasks`,
   }).showToast();
+}
+
+function loadTasks(){
+  if (localStorage.getItem('savedTasks')) {
+    loadTasksFromTasksArr(JSON.parse(localStorage.getItem('savedTasks')));
+  }
 }
 
 function submitEntry(entry) {
@@ -847,6 +855,35 @@ function clearAllTasks() {
   }).showToast();
 }
 
+function importTasks() {
+  let pastedJsonStr = prompt('Paste your JSON here...');
+  try {
+    if (pastedJsonStr) {
+      const tasksArr = JSON.parse(pastedJsonStr);
+      loadTasksFromTasksArr(tasksArr);
+      alert('Tasks Imported');
+    }
+
+  } catch (err) {
+    alert(err);
+  }
+}
+
+function download(text, filename){
+  var blob = new Blob([text], {type: "text/plain"});
+  var url = window.URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+}
+
+
+function exportTasks(){
+  let downloadText = JSON.stringify(getTasksArrFromDOM())
+  download(downloadText, 'tasks.json')
+}
+
 window.closeModal = function () {
   document.querySelector('.BL_modal').style.display = 'none';
   document.querySelector('.BL_open-modal-btn').style.display = 'block';
@@ -865,6 +902,12 @@ document
 document
   .querySelector('#BL_clearAllTasks')
   .addEventListener('click', clearAllTasks);
+document
+  .querySelector('#BL_importTasks')
+  .addEventListener('click', importTasks);
+document
+  .querySelector('#BL_exportTasks')
+  .addEventListener('click', exportTasks);
 
 document.querySelector('.BL_modal').addEventListener('click', (event) => {
   if (['BL_modal', 'BL_table_dom'].includes(event.target.parentElement.id)) {
