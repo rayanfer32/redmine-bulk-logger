@@ -385,7 +385,7 @@ function download(text, filename){
 
 
 function exportTasks(){
-  let downloadText = JSON.stringify(getTasksArrFromDOM())
+  let downloadText = JSON.stringify(getTasksArrFromDOM(), null, 2)
   download(downloadText, 'tasks.json')
 }
 
