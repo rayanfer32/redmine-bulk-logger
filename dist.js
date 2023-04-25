@@ -790,7 +790,7 @@ function loadTasksFromTasksArr(tasksArr) {
   });
   Toastify({
     ...toastifyOptions,
-    text: `Loaded ${loadedTasks.length} Tasks`,
+    text: `Loaded ${tasksArr.length} Tasks`,
   }).showToast();
 }
 
