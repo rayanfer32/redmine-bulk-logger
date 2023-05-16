@@ -36,7 +36,7 @@ window.BL_TABLE_DOM = `
       class="BL_button BL_open-modal-btn"
       onclick="openModal()"
     >
-      Open Bulk Logger
+      __
     </button>
     <div id="BL_modal" class="BL_modal">
 
@@ -327,8 +327,8 @@ const INJECTED_CSS = document.createElement('style');INJECTED_CSS.textContent = 
 
 .BL_open-modal-btn {
   position: fixed;
-  top: 0.2rem;
-  left: 45vw;
+  top: -1.2rem;
+  left: 48%;
 }
 
 .BL_select {

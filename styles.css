@@ -61,8 +61,8 @@
 
 .BL_open-modal-btn {
   position: fixed;
-  top: 0.2rem;
-  left: 45vw;
+  top: -1.2rem;
+  left: 48%;
 }
 
 .BL_select {
